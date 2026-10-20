@@ -179,7 +179,8 @@ public class LeafChunkRenderer : MonoBehaviour
             {
                 LeafData leaf = manager.leaves[id];
 
-                if (leaf.state == LeafState.Collected)
+                if (leaf.state == LeafState.Collected ||
+                    leaf.state == LeafState.BeingCollected)
                     continue;
 
                 if (!meshes.ContainsKey(leaf.variantIndex))

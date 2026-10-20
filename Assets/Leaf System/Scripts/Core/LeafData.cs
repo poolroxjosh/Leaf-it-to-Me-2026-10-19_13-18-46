@@ -6,6 +6,7 @@ public enum LeafState
     Resting,
     Moving,
     Airborne,
+    BeingCollected,
     Collected
 }
 
