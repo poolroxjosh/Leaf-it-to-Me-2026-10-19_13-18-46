@@ -49,6 +49,7 @@ public class LeafSpawner : MonoBehaviour
         }
 
         manager.ClearLeaves();
+        manager.BeginBulkSpawn();
 
         Random.State previousState = Random.state;
         Random.InitState(randomSeed);
@@ -117,15 +118,28 @@ public class LeafSpawner : MonoBehaviour
 
                 float size = Random.Range(minSize, maxSize);
 
-                Quaternion rotation =
+                Quaternion groundAlignment =
                     Quaternion.FromToRotation(
-                        Vector3.up, hit.normal
-                    ) *
-                    Quaternion.Euler(
-                        0f,
-                        Random.Range(0f, 360f),
-                        0f
+                        Vector3.up,
+                        hit.normal
                     );
+
+                Quaternion randomYaw = Quaternion.Euler(
+                    0f,
+                    Random.Range(0f, 360f),
+                    0f
+                );
+
+                Quaternion subtleTilt = Quaternion.Euler(
+                    Random.Range(-5f, 5f),
+                    0f,
+                    Random.Range(-5f, 5f)
+                );
+
+                Quaternion rotation =
+                    groundAlignment *
+                    randomYaw *
+                    subtleTilt;
 
                 LeafData leaf = new LeafData
                 {
@@ -147,6 +161,8 @@ public class LeafSpawner : MonoBehaviour
         }
 
         Random.state = previousState;
+
+        manager.EndBulkSpawn();
 
         Debug.Log(
             $"LeafSpawner: Spawned {spawned:N0} leaves " +

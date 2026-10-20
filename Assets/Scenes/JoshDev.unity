@@ -508,6 +508,7 @@ GameObject:
   - component: {fileID: 1075979200}
   - component: {fileID: 1075979202}
   - component: {fileID: 1075979201}
+  - component: {fileID: 1075979203}
   m_Layer: 0
   m_Name: LeafSystem
   m_TagString: Untagged
@@ -537,7 +538,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1075979198}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afdef5f47bb16ac4c8cc2e39eff8d0f3, type: 3}
   m_Name: 
@@ -561,7 +562,8 @@ MonoBehaviour:
   - name: Test
     prefab: {fileID: 919132149155446097, guid: 403574109ae53344ba0855a1349506c3, type: 3}
     spawnWeight: 1
-    sizeMultiplier: {x: 4, y: 6}
+    sizeMultiplier: {x: 7, y: 10}
+    meshRotationOffset: {x: 90, y: 0, z: 0}
     colors:
       serializedVersion: 2
       key0: {r: 1, g: 0, b: 0, a: 1}
@@ -593,7 +595,7 @@ MonoBehaviour:
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
   spawnArea: {x: 50, y: 50}
-  leafCount: 10000
+  leafCount: 1000000
   groundLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -616,7 +618,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0f05a6182b2cd47bc3fd690180a911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeafManager
-  cellSize: 2
+  cellSize: 8
+--- !u!114 &1075979203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075979198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f27ee286747304f8f75b43b55235c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LeafChunkRenderer
+  leafMaterial: {fileID: 2100000, guid: 77b34656b01487e4cb3e44b264309a75, type: 2}
+  targetCamera: {fileID: 961739752}
+  castShadows: 0
+  receiveShadows: 0
+  enableFrustumCulling: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

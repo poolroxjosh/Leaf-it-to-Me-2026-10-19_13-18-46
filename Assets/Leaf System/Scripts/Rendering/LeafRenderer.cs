@@ -124,9 +124,13 @@ public class LeafRenderer : MonoBehaviour
             if (leaf.variantIndex != variantIndex)
                 continue;
 
+            Quaternion meshRotation = Quaternion.Euler(
+                spawner.variants[variantIndex].meshRotationOffset
+            );
+
             matrices.Add(Matrix4x4.TRS(
                 leaf.position,
-                leaf.rotation,
+                leaf.rotation * meshRotation,
                 leaf.scale
             ));
 

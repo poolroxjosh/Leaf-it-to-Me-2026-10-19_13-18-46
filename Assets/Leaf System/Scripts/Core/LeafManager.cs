@@ -1,9 +1,21 @@
-
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LeafManager : MonoBehaviour
 {
+
+    public event Action<Vector2Int> OnChunkChanged;
+    public event Action OnLeavesCleared;
+
+    public Vector2Int GetChunkCoordinate(Vector3 position)
+    {
+        return new Vector2Int(
+            Mathf.FloorToInt(position.x / cellSize),
+            Mathf.FloorToInt(position.z / cellSize)
+        );
+    }
+
     [Min(0.5f)]
     public float cellSize = 2f;
 
@@ -30,6 +42,8 @@ public class LeafManager : MonoBehaviour
         leaves.Clear();
         grid.Clear();
         CollectedLeaves = 0;
+
+        OnLeavesCleared?.Invoke();
     }
 
     public void AddLeaf(LeafData leaf)
@@ -47,6 +61,11 @@ public class LeafManager : MonoBehaviour
         }
 
         ids.Add(leaf.id);
+
+        if (!IsBulkSpawning)
+        {
+            OnChunkChanged?.Invoke(cell);
+        }
     }
 
     public int CollectLeaves(Vector3 center, float radius)
@@ -85,6 +104,7 @@ public class LeafManager : MonoBehaviour
 
                     leaf.state = LeafState.Collected;
                     leaves[id] = leaf;
+                    OnChunkChanged?.Invoke(cell);
 
                     collected++;
                 }
@@ -95,4 +115,27 @@ public class LeafManager : MonoBehaviour
 
         return collected;
     }
+
+    public bool TryGetLeavesInChunk(
+        Vector2Int coordinate,
+        out List<int> leafIds)
+    {
+        return grid.TryGetValue(coordinate, out leafIds);
+    }
+
+    public bool IsBulkSpawning { get; private set; }
+
+    public event Action OnBulkSpawnCompleted;
+
+    public void BeginBulkSpawn()
+    {
+        IsBulkSpawning = true;
+    }
+
+    public void EndBulkSpawn()
+    {
+        IsBulkSpawning = false;
+        OnBulkSpawnCompleted?.Invoke();
+    }
+
 }

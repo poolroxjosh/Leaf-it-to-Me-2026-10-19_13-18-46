@@ -13,5 +13,8 @@ public class LeafVariant
 
     public Vector2 sizeMultiplier = new Vector2(0.8f, 1.2f);
 
+    [Header("Mesh Orientation")]
+    public Vector3 meshRotationOffset = Vector3.zero;
+
     public Gradient colors = new Gradient();
 }
