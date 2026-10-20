@@ -27,6 +27,7 @@ public class LeafManager : MonoBehaviour
 
     public int TotalLeaves => leaves.Count;
     public int CollectedLeaves { get; private set; }
+    public int PendingPickupLeaves { get; private set; }
     public int RemainingLeaves => TotalLeaves - CollectedLeaves;
 
     private Vector2Int GetCell(Vector3 position)
@@ -41,7 +42,10 @@ public class LeafManager : MonoBehaviour
     {
         leaves.Clear();
         grid.Clear();
+
         CollectedLeaves = 0;
+        PendingPickupLeaves = 0;
+        IsBulkSpawning = false;
 
         OnLeavesCleared?.Invoke();
     }
@@ -136,6 +140,118 @@ public class LeafManager : MonoBehaviour
     {
         IsBulkSpawning = false;
         OnBulkSpawnCompleted?.Invoke();
+    }
+
+    public void FindLeavesNear(
+        Vector3 center,
+        float radius,
+        List<int> results)
+    {
+        results.Clear();
+
+        if (radius <= 0f)
+            return;
+
+        float radiusSq = radius * radius;
+
+        Vector2Int min = GetChunkCoordinate(
+            center - new Vector3(radius, 0f, radius)
+        );
+
+        Vector2Int max = GetChunkCoordinate(
+            center + new Vector3(radius, 0f, radius)
+        );
+
+        for (int x = min.x; x <= max.x; x++)
+        {
+            for (int z = min.y; z <= max.y; z++)
+            {
+                Vector2Int cell = new Vector2Int(x, z);
+
+                if (!grid.TryGetValue(
+                    cell, out List<int> ids))
+                    continue;
+
+                foreach (int id in ids)
+                {
+                    LeafData leaf = leaves[id];
+
+                    if (leaf.state != LeafState.Resting)
+                        continue;
+
+                    if ((leaf.position - center).sqrMagnitude
+                        > radiusSq)
+                        continue;
+
+                    results.Add(id);
+                }
+            }
+        }
+    }
+
+    public bool BeginPickup(int id, out LeafData leaf)
+    {
+        leaf = default(LeafData);
+
+        if (id < 0 || id >= leaves.Count)
+            return false;
+
+        leaf = leaves[id];
+
+        if (leaf.state != LeafState.Resting)
+            return false;
+
+        leaf.state = LeafState.BeingCollected;
+        leaves[id] = leaf;
+
+        PendingPickupLeaves++;
+
+        OnChunkChanged?.Invoke(
+            GetChunkCoordinate(leaf.position)
+        );
+
+        return true;
+    }
+
+    public bool CompletePickup(int id)
+    {
+        if (id < 0 || id >= leaves.Count)
+            return false;
+
+        LeafData leaf = leaves[id];
+
+        if (leaf.state != LeafState.BeingCollected)
+            return false;
+
+        leaf.state = LeafState.Collected;
+        leaves[id] = leaf;
+
+        PendingPickupLeaves--;
+        CollectedLeaves++;
+
+        return true;
+    }
+
+    public bool CancelPickup(int id)
+    {
+        if (id < 0 || id >= leaves.Count)
+            return false;
+
+        LeafData leaf = leaves[id];
+
+        if (leaf.state != LeafState.BeingCollected)
+            return false;
+
+        leaf.state = LeafState.Resting;
+        leaves[id] = leaf;
+
+        PendingPickupLeaves--;
+
+        OnChunkChanged?.Invoke(
+            GetChunkCoordinate(leaf.position)
+        );
+
+        return true;
     }
 
 }
