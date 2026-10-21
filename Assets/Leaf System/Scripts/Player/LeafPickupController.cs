@@ -84,29 +84,56 @@ public class LeafPickupController : MonoBehaviour
             new Vector3(0.5f, 0.5f, 0f)
         );
 
-        if (!Physics.Raycast(
+        Vector3 searchCenter;
+        float radius = searchRadius;
+
+        // First try normal crosshair-to-ground targeting.
+        bool hitGround = Physics.Raycast(
             ray,
             out RaycastHit hit,
             pickupRange,
             groundLayers,
-            QueryTriggerInteraction.Ignore))
+            QueryTriggerInteraction.Ignore
+        );
+
+        if (hitGround)
         {
-            pickupVisuals.ClearHighlight();
-            return;
+            searchCenter = hit.point;
+        }
+        else
+        {
+            // If the ray doesn't hit the ground, search
+            // near the player when looking downward.
+            if (Vector3.Dot(ray.direction, Vector3.down) < 0.35f)
+            {
+                pickupVisuals.ClearHighlight();
+                return;
+            }
+
+            searchCenter = transform.position;
         }
 
+        // Expand the search near the player's feet.
+        Vector3 playerFeet = transform.position;
+
+        bool nearFeet =
+            Vector3.Distance(
+                new Vector2(searchCenter.x, searchCenter.z),
+                new Vector2(playerFeet.x, playerFeet.z)
+            ) < 1.25f;
+
+        if (nearFeet)
+            radius = Mathf.Max(radius, 1.25f);
+
         leafManager.FindLeavesNear(
-            hit.point,
-            searchRadius,
+            searchCenter,
+            radius,
             candidates
         );
 
         float bestScore = float.MaxValue;
 
-        Vector2 screenCenter = new Vector2(
-            playerCamera.pixelRect.center.x,
-            playerCamera.pixelRect.center.y
-        );
+        Vector2 screenCenter = playerCamera.pixelRect.center;
 
         foreach (int id in candidates)
         {
@@ -122,14 +149,6 @@ public class LeafPickupController : MonoBehaviour
             if (screenPoint.z <= 0f)
                 continue;
 
-            float screenDistance = Vector2.Distance(
-                new Vector2(screenPoint.x, screenPoint.y),
-                screenCenter
-            );
-
-            if (screenDistance > targetScreenRadius)
-                continue;
-
             float worldDistance = Vector3.Distance(
                 playerCamera.transform.position,
                 leaf.position
@@ -138,11 +157,20 @@ public class LeafPickupController : MonoBehaviour
             if (worldDistance > pickupRange)
                 continue;
 
-            // Prefer the leaf nearest to the crosshair.
-            // World distance acts as a tie-breaker.
+            float screenDistance = Vector2.Distance(
+                new Vector2(screenPoint.x, screenPoint.y),
+                screenCenter
+            );
+
+            // Wider screen tolerance for close leaves.
+            float allowedScreenRadius =
+                nearFeet ? 120f : targetScreenRadius;
+
+            if (screenDistance > allowedScreenRadius)
+                continue;
+
             float score =
-                screenDistance +
-                worldDistance * 0.1f;
+                screenDistance + worldDistance * 0.1f;
 
             if (score < bestScore)
             {
