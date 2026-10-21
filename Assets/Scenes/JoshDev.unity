@@ -630,7 +630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afdef5f47bb16ac4c8cc2e39eff8d0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeafRenderer
-  leafMaterial: {fileID: 2100000, guid: 77b34656b01487e4cb3e44b264309a75, type: 2}
+  leafMaterial: {fileID: 2100000, guid: 37bb2e9b24c7d084aad48a1ac9b0c252, type: 2}
   castShadows: 0
   receiveShadows: 0
 --- !u!114 &1075979201
