@@ -9,6 +9,8 @@ public class LeafPickupController : MonoBehaviour
     public Camera playerCamera;
     public LeafManager leafManager;
     public LeafPickupVisuals pickupVisuals;
+    public LeafInventory inventory;
+    public LeafWheelbarrowInteraction wheelbarrowInteraction;
 
     [Header("Targeting")]
     public LayerMask groundLayers = ~0;
@@ -62,6 +64,14 @@ public class LeafPickupController : MonoBehaviour
             return;
         }
 
+        if (wheelbarrowInteraction != null &&
+            wheelbarrowInteraction.IsAimingAtWheelbarrow())
+        {
+            targetLeafId = -1;
+            pickupVisuals.ClearHighlight();
+            return;
+        }
+
         UpdateTarget();
 
         bool wantsPickup =
@@ -70,7 +80,19 @@ public class LeafPickupController : MonoBehaviour
                 ? Mouse.current.leftButton.isPressed
                 : Mouse.current.leftButton.wasPressedThisFrame);
 
-        if (wantsPickup && CanPickup && targetLeafId >= 0)
+        // Do not pick up ground leaves while aiming at the wheelbarrow.
+        if (wheelbarrowInteraction != null &&
+            wheelbarrowInteraction.IsAimingAtWheelbarrow())
+        {
+            pickupVisuals.ClearHighlight();
+            return;
+        }
+
+        if (wantsPickup &&
+            CanPickup &&
+            targetLeafId >= 0 &&
+            inventory != null &&
+            inventory.AvailableCapacity > 0)
         {
             TryPickup();
         }
@@ -195,8 +217,12 @@ public class LeafPickupController : MonoBehaviour
 
         int desiredCount = Mathf.Min(
             Mathf.Max(1, leavesPerPickup),
-            pickupVisuals.AvailableSlots
+            pickupVisuals.AvailableSlots,
+            inventory.AvailableCapacity
         );
+
+        if (desiredCount <= 0)
+            return;
 
         // Future upgrades can collect multiple nearby
         // leaves during one pickup action.
@@ -244,13 +270,20 @@ public class LeafPickupController : MonoBehaviour
 
         foreach (int id in selected)
         {
+            if (!inventory.ReserveLeaf())
+                break;
+
             if (!leafManager.BeginPickup(
                 id, out LeafData leaf))
+            {
+                inventory.CancelLeafPickup();
                 continue;
+            }
 
             if (!pickupVisuals.PlayPickup(id, leaf))
             {
                 leafManager.CancelPickup(id);
+                inventory.CancelLeafPickup();
                 continue;
             }
 

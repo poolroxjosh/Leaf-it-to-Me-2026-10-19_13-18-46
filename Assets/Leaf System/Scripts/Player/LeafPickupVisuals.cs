@@ -10,6 +10,7 @@ public class LeafPickupVisuals : MonoBehaviour
     public LeafSpawner leafSpawner;
     public Transform pickupLocation;
     public Material leafMaterial;
+    public LeafInventory inventory;
 
     [Header("Highlight")]
     public Color highlightColor = Color.yellow;
@@ -284,9 +285,15 @@ public class LeafPickupVisuals : MonoBehaviour
 
             if (t >= 1f)
             {
-                leafManager.CompletePickup(
-                    visual.leafId
-                );
+                if (leafManager.CompletePickup(visual.leafId))
+                {
+                    if (inventory != null)
+                        inventory.CompleteLeafPickup();
+                }
+                else if (inventory != null)
+                {
+                    inventory.CancelLeafPickup();
+                }
 
                 visual.obj.SetActive(false);
                 flying.RemoveAt(i);
@@ -301,9 +308,10 @@ public class LeafPickupVisuals : MonoBehaviour
         foreach (Visual visual in flying)
         {
             if (leafManager != null)
-                leafManager.CancelPickup(
-                    visual.leafId
-                );
+                leafManager.CancelPickup(visual.leafId);
+
+            if (inventory != null)
+                inventory.CancelLeafPickup();
 
             visual.obj.SetActive(false);
         }
