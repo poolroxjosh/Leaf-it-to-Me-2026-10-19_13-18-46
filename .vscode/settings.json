@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Leaf-it-to-Me-2026-10-19_13-18-46.slnx"
+    "dotnet.defaultSolution": "Leaf it to Me.slnx"
 }

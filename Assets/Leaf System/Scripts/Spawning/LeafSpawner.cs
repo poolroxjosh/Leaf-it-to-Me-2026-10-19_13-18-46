@@ -16,6 +16,18 @@ public class LeafSpawner : MonoBehaviour
 
     public LayerMask groundLayers = ~0;
 
+    [Header("Spawn Obstacle Detection")]
+    public LayerMask obstacleLayers;
+
+    [Min(0.01f)]
+    public float leafClearanceRadius = 0.12f;
+
+    [Min(0.01f)]
+    public float leafClearanceHeight = 0.15f;
+
+    [Min(0f)]
+    public float obstaclePadding = 0.02f;
+
     [Header("Surface Detection")]
     public float raycastHeight = 100f;
     public float raycastDistance = 250f;
@@ -35,6 +47,73 @@ public class LeafSpawner : MonoBehaviour
     public int randomSeed = 12345;
 
     private LeafManager manager;
+
+    private readonly Collider[] obstacleResults =
+        new Collider[32];
+
+    private readonly RaycastHit[] exposureHits =
+        new RaycastHit[32];
+
+    private bool IsSpawnPositionClear(
+        Vector3 position,
+        Vector3 surfaceNormal)
+    {
+        float radius =
+            leafClearanceRadius + obstaclePadding;
+
+        float height =
+            leafClearanceHeight + obstaclePadding;
+
+        // Check a small volume above the ground.
+        // Keep its lower face slightly above the
+        // surface to avoid touching ground geometry.
+        Vector3 center =
+            position +
+            surfaceNormal * (height * 0.5f + 0.01f);
+
+        Vector3 halfExtents = new Vector3(
+            radius,
+            height * 0.5f,
+            radius
+        );
+
+        int count = Physics.OverlapBoxNonAlloc(
+            center,
+            halfExtents,
+            obstacleResults,
+            Quaternion.identity,
+            obstacleLayers,
+            QueryTriggerInteraction.Ignore
+        );
+
+        // Fail closed if our buffer fills up.
+        // We cannot guarantee that all obstacles
+        // were returned in this case.
+        if (count >= obstacleResults.Length)
+            return false;
+
+        return count == 0;
+    }
+
+    private bool IsSurfaceExposed(
+        Vector3 rayOrigin,
+        float groundDistance)
+    {
+        int count = Physics.RaycastNonAlloc(
+            rayOrigin,
+            Vector3.down,
+            exposureHits,
+            groundDistance,
+            obstacleLayers,
+            QueryTriggerInteraction.Ignore
+        );
+
+        if (count >= exposureHits.Length)
+            return false;
+
+        // Any obstacle above the ground blocks spawning.
+        return count == 0;
+    }
 
     private IEnumerator Start()
     {
@@ -99,8 +178,25 @@ public class LeafSpawner : MonoBehaviour
                 if (slope > maxSlope)
                     continue;
 
-                int variantIndex = PickVariant();
+                // Reject locations occupied by obstacles.
+                if (!IsSpawnPositionClear(
+                    hit.point,
+                    hit.normal))
+                {
+                    continue;
+                }
 
+                // Reject ground covered by roofs or other obstacles.
+                float groundDistance =
+                    hit.distance;
+
+                if (!IsSurfaceExposed(origin, groundDistance))
+                {
+                    continue;
+                }
+
+                int variantIndex = PickVariant();
+                
                 if (variantIndex < 0)
                     break;
 
