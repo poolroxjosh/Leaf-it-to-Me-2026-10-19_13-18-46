@@ -17,6 +17,9 @@ public class FirstPersonController : MonoBehaviour
     public float mouseSensitivity = 2f;
     public float maxLookAngle = 85f;
 
+    [Header("UI")]
+    public LeafShopUI shopUI;
+
     private CharacterController controller;
     private float verticalVelocity;
     private float cameraPitch;
@@ -34,6 +37,10 @@ public class FirstPersonController : MonoBehaviour
     private void Update()
     {
         if (playerCamera == null)
+            return;
+
+        // The shop owns the cursor while it is open.
+        if (shopUI != null && shopUI.IsOpen)
             return;
 
         HandleCursor();
@@ -120,7 +127,8 @@ public class FirstPersonController : MonoBehaviour
             Mouse.current.leftButton.wasPressedThisFrame &&
             Cursor.lockState != CursorLockMode.Locked)
         {
-            LockCursor();
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 
