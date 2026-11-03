@@ -9,6 +9,7 @@ public class LeafPickupController : MonoBehaviour
     public Camera playerCamera;
     public LeafManager leafManager;
     public LeafPickupVisuals pickupVisuals;
+    public LeafPickupAudio pickupAudio;
     public LeafInventory inventory;
     public LeafWheelbarrowInteraction wheelbarrowInteraction;
 
@@ -304,6 +305,11 @@ public class LeafPickupController : MonoBehaviour
 
         if (started > 0)
         {
+            // Play one sound per successful pickup action,
+            // regardless of how many leaves were collected.
+            if (pickupAudio != null)
+                pickupAudio.PlayPickupSound();
+
             nextPickupTime =
                 Time.time + pickupCooldown;
 
