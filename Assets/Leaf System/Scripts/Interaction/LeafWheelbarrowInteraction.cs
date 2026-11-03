@@ -16,6 +16,9 @@ public class LeafWheelbarrowInteraction : MonoBehaviour
     public Material leafMaterial;
     public LeafWallet wallet;
 
+    [Header("Audio")]
+    public LeafDropoffAudio dropoffAudio;
+
     [Header("Interaction")]
     public float interactionRange = 3f;
     public LayerMask interactionLayers = ~0;
@@ -164,6 +167,12 @@ public class LeafWheelbarrowInteraction : MonoBehaviour
             $"Earned ${(accepted / 100m):F2}. " +
             $"Balance: {wallet.GetFormattedBalance()}"
         );
+
+        // Play exactly one sound for this deposit.
+        if (dropoffAudio != null)
+        {
+            dropoffAudio.PlayDropoffSound();
+        }
 
         SpawnDepositVisuals(accepted);
     }
