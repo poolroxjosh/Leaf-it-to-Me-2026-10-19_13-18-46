@@ -14,6 +14,7 @@ public class LeafWheelbarrowInteraction : MonoBehaviour
     public Transform dropoffLocation;
     public LeafSpawner leafSpawner;
     public Material leafMaterial;
+    public LeafWallet wallet;
 
     [Header("Interaction")]
     public float interactionRange = 3f;
@@ -22,6 +23,9 @@ public class LeafWheelbarrowInteraction : MonoBehaviour
     [Header("Visuals")]
     [Range(1, 32)]
     public int maxVisualLeaves = 12;
+
+    [Header("UI")]
+    public LeafShopUI shopUI;
 
     public float depositDuration = 0.65f;
     public float arcHeight = 0.7f;
@@ -119,7 +123,8 @@ public class LeafWheelbarrowInteraction : MonoBehaviour
 
     private void Update()
     {
-        if (Mouse.current != null &&
+        if ((shopUI == null || !shopUI.IsOpen) &&
+            Mouse.current != null &&
             Mouse.current.leftButton.wasPressedThisFrame &&
             IsAimingAtWheelbarrow())
         {
@@ -131,7 +136,9 @@ public class LeafWheelbarrowInteraction : MonoBehaviour
 
     private void TryDeposit()
     {
-        if (inventory == null || wheelbarrow == null)
+        if (inventory == null ||
+            wheelbarrow == null ||
+            wallet == null)
             return;
 
         if (inventory.CurrentLeaves <= 0)
@@ -139,16 +146,23 @@ public class LeafWheelbarrowInteraction : MonoBehaviour
 
         int amount = inventory.CurrentLeaves;
 
+        // Wheelbarrow determines how many leaves
+        // can actually be accepted.
         int accepted = wheelbarrow.Deposit(amount);
 
         if (accepted <= 0)
             return;
 
+        // Remove the accepted leaves from the bag.
         inventory.RemoveLeaves(accepted);
+
+        // Each deposited leaf earns exactly $0.01.
+        wallet.EarnFromLeaves(accepted);
 
         Debug.Log(
             $"Deposited {accepted} leaves. " +
-            $"Wheelbarrow total: {wheelbarrow.StoredLeaves:N0}"
+            $"Earned ${(accepted / 100m):F2}. " +
+            $"Balance: {wallet.GetFormattedBalance()}"
         );
 
         SpawnDepositVisuals(accepted);
