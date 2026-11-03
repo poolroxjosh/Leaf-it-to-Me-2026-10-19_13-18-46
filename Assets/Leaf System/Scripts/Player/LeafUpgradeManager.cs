@@ -18,12 +18,12 @@ public class LeafUpgradeManager : MonoBehaviour
 
     [Header("Bag Size")]
     public int startingBagCapacity = 25;
-    public int capacityPerLevel = 10;
+    public int capacityPerLevel = 25;
     public int bagBasePriceCents = 100;
     public float bagPriceMultiplier = 1.6f;
 
     [Header("Dexterity")]
-    public float startingCooldown = 0.4f;
+    public float startingCooldown = 0.5f;
     public float cooldownReductionPerLevel = 0.035f;
     public float minimumCooldown = 0.1f;
     public int dexterityBasePriceCents = 150;
@@ -36,7 +36,7 @@ public class LeafUpgradeManager : MonoBehaviour
     public float graspPriceMultiplier = 2f;
 
     [Header("Upgrade Limits")]
-    public int maxBagLevel = 50;
+    public int maxBagLevel = 200;
     public int maxDexterityLevel = 9;
     public int maxGraspLevel = 20;
 
