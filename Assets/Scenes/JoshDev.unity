@@ -2294,7 +2294,7 @@ MonoBehaviour:
   - name: Test
     prefab: {fileID: 6193926282497212768, guid: d0b5d707d881dff418e3ed3a9eb42399, type: 3}
     spawnWeight: 1
-    sizeMultiplier: {x: 20, y: 24}
+    sizeMultiplier: {x: 30, y: 55}
     meshRotationOffset: {x: 90, y: 0, z: 0}
     colors:
       serializedVersion: 2
@@ -2327,7 +2327,7 @@ MonoBehaviour:
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
   spawnArea: {x: 50, y: 50}
-  leafCount: 100000
+  leafCount: 30000
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -2546,7 +2546,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 89.4, y: -96.9}
+  m_AnchoredPosition: {x: 89.3999, y: -96.900024}
   m_SizeDelta: {x: 175, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1235560734
