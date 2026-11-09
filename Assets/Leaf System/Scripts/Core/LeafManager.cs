@@ -254,4 +254,53 @@ public class LeafManager : MonoBehaviour
         return true;
     }
 
+    public bool MoveLeaf(int id, Vector3 newPosition)
+    {
+        if (id < 0 || id >= leaves.Count)
+            return false;
+
+        LeafData leaf = leaves[id];
+
+        if (leaf.state != LeafState.Resting)
+            return false;
+
+        Vector2Int oldCell =
+            GetChunkCoordinate(leaf.position);
+
+        Vector2Int newCell =
+            GetChunkCoordinate(newPosition);
+
+        if (oldCell != newCell)
+        {
+            if (grid.TryGetValue(
+                oldCell, out List<int> oldIds))
+            {
+                oldIds.Remove(id);
+
+                if (oldIds.Count == 0)
+                    grid.Remove(oldCell);
+            }
+
+            if (!grid.TryGetValue(
+                newCell, out List<int> newIds))
+            {
+                newIds = new List<int>();
+                grid.Add(newCell, newIds);
+            }
+
+            newIds.Add(id);
+        }
+
+        leaf.position = newPosition;
+        leaves[id] = leaf;
+
+        // Both chunks may need their render batches updated.
+        OnChunkChanged?.Invoke(oldCell);
+
+        if (oldCell != newCell)
+            OnChunkChanged?.Invoke(newCell);
+
+        return true;
+    }
+
 }

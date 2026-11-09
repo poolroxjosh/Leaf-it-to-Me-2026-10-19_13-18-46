@@ -38,6 +38,9 @@ public class LeafPickupController : MonoBehaviour
     [Header("UI")]
     public LeafShopUI shopUI;
 
+    [Header("Tools")]
+    public PlayerToolController toolController;
+
     private float nextPickupTime;
     private int targetLeafId = -1;
 
@@ -56,6 +59,16 @@ public class LeafPickupController : MonoBehaviour
 
     private void Update()
     {
+        if (toolController != null &&
+            toolController.EquippedTool != PlayerTool.Hands)
+        {
+            targetLeafId = -1;
+
+            if (pickupVisuals != null)
+                pickupVisuals.ClearHighlight();
+
+            return;
+        }
         if (shopUI != null && shopUI.IsOpen)
         {
             targetLeafId = -1;

@@ -18,18 +18,38 @@ public class LeafShopUI : MonoBehaviour
     [Header("References")]
     public LeafWallet wallet;
     public LeafUpgradeManager upgrades;
+    public LeafRakeUpgradeManager rakeUpgrades;
 
-    [Header("UI")]
+    [Header("Main UI")]
     public GameObject shopPanel;
     public TMP_Text hudMoneyText;
     public TMP_Text shopBalanceText;
 
-    [Header("Upgrade Rows")]
+    [Header("Tabs")]
+    public GameObject handUpgradesPanel;
+    public GameObject rakeUpgradesPanel;
+    public Button handTabButton;
+    public Button rakeTabButton;
+
+    [Header("Hand Upgrades")]
     public UpgradeRow bagRow;
     public UpgradeRow dexterityRow;
     public UpgradeRow graspRow;
 
+    [Header("Rake Purchase")]
+    public GameObject rakePurchasePanel;
+    public GameObject rakeUpgradeRows;
+    public Button purchaseRakeButton;
+    public TMP_Text rakePurchasePriceText;
+
+    [Header("Rake Upgrades")]
+    public UpgradeRow rakeSpeedRow;
+    public UpgradeRow rakeWidthRow;
+    public UpgradeRow rakeStrengthRow;
+
     public bool IsOpen { get; private set; }
+
+    private bool showingRakeTab;
 
     private void Awake()
     {
@@ -45,6 +65,9 @@ public class LeafShopUI : MonoBehaviour
         if (upgrades != null)
             upgrades.OnUpgradesChanged += Refresh;
 
+        if (rakeUpgrades != null)
+            rakeUpgrades.OnRakeUpgradesChanged += Refresh;
+
         Refresh();
     }
 
@@ -55,11 +78,15 @@ public class LeafShopUI : MonoBehaviour
 
         if (upgrades != null)
             upgrades.OnUpgradesChanged -= Refresh;
+
+        if (rakeUpgrades != null)
+            rakeUpgrades.OnRakeUpgradesChanged -= Refresh;
     }
 
     private void Start()
     {
         SetupButtons();
+        ShowHandTab();
         Refresh();
     }
 
@@ -74,26 +101,38 @@ public class LeafShopUI : MonoBehaviour
 
     private void SetupButtons()
     {
+        if (handTabButton != null)
+            handTabButton.onClick.AddListener(ShowHandTab);
+
+        if (rakeTabButton != null)
+            rakeTabButton.onClick.AddListener(ShowRakeTab);
+
         if (bagRow.buyButton != null)
-        {
             bagRow.buyButton.onClick.AddListener(
-                () => Purchase(LeafUpgradeType.BagSize)
-            );
-        }
+                () => PurchaseHand(LeafUpgradeType.BagSize));
 
         if (dexterityRow.buyButton != null)
-        {
             dexterityRow.buyButton.onClick.AddListener(
-                () => Purchase(LeafUpgradeType.Dexterity)
-            );
-        }
+                () => PurchaseHand(LeafUpgradeType.Dexterity));
 
         if (graspRow.buyButton != null)
-        {
             graspRow.buyButton.onClick.AddListener(
-                () => Purchase(LeafUpgradeType.GraspAmount)
-            );
-        }
+                () => PurchaseHand(LeafUpgradeType.GraspAmount));
+
+        if (purchaseRakeButton != null)
+            purchaseRakeButton.onClick.AddListener(PurchaseRake);
+
+        if (rakeSpeedRow.buyButton != null)
+            rakeSpeedRow.buyButton.onClick.AddListener(
+                () => PurchaseRakeUpgrade(RakeUpgradeType.Speed));
+
+        if (rakeWidthRow.buyButton != null)
+            rakeWidthRow.buyButton.onClick.AddListener(
+                () => PurchaseRakeUpgrade(RakeUpgradeType.Width));
+
+        if (rakeStrengthRow.buyButton != null)
+            rakeStrengthRow.buyButton.onClick.AddListener(
+                () => PurchaseRakeUpgrade(RakeUpgradeType.Strength));
     }
 
     public void ToggleShop()
@@ -122,7 +161,30 @@ public class LeafShopUI : MonoBehaviour
         Refresh();
     }
 
-    private void Purchase(LeafUpgradeType type)
+    public void ShowHandTab()
+    {
+        showingRakeTab = false;
+        RefreshTabs();
+    }
+
+    public void ShowRakeTab()
+    {
+        showingRakeTab = true;
+        RefreshTabs();
+    }
+
+    private void RefreshTabs()
+    {
+        if (handUpgradesPanel != null)
+            handUpgradesPanel.SetActive(!showingRakeTab);
+
+        if (rakeUpgradesPanel != null)
+            rakeUpgradesPanel.SetActive(showingRakeTab);
+
+        Refresh();
+    }
+
+    private void PurchaseHand(LeafUpgradeType type)
     {
         if (upgrades == null)
             return;
@@ -131,28 +193,77 @@ public class LeafShopUI : MonoBehaviour
         Refresh();
     }
 
-    private void Refresh()
+    private void PurchaseRake()
     {
-        if (wallet == null)
+        if (rakeUpgrades == null)
             return;
 
-        string balance = wallet.GetFormattedBalance();
-
-        if (hudMoneyText != null)
-            hudMoneyText.text = balance;
-
-        if (shopBalanceText != null)
-            shopBalanceText.text = $"Balance: {balance}";
-
-        if (upgrades == null)
-            return;
-
-        RefreshRow(bagRow, LeafUpgradeType.BagSize);
-        RefreshRow(dexterityRow, LeafUpgradeType.Dexterity);
-        RefreshRow(graspRow, LeafUpgradeType.GraspAmount);
+        rakeUpgrades.PurchaseRake();
+        Refresh();
     }
 
-    private void RefreshRow(
+    private void PurchaseRakeUpgrade(RakeUpgradeType type)
+    {
+        if (rakeUpgrades == null)
+            return;
+
+        rakeUpgrades.Purchase(type);
+        Refresh();
+    }
+
+    private void Refresh()
+    {
+        if (wallet != null)
+        {
+            string balance = wallet.GetFormattedBalance();
+
+            if (hudMoneyText != null)
+                hudMoneyText.text = balance;
+
+            if (shopBalanceText != null)
+                shopBalanceText.text = $"Balance: {balance}";
+        }
+
+        if (upgrades != null)
+        {
+            RefreshHandRow(bagRow, LeafUpgradeType.BagSize);
+            RefreshHandRow(dexterityRow, LeafUpgradeType.Dexterity);
+            RefreshHandRow(graspRow, LeafUpgradeType.GraspAmount);
+        }
+
+        if (rakeUpgrades != null)
+        {
+            bool owned = rakeUpgrades.IsRakeOwned;
+
+            if (rakePurchasePanel != null)
+                rakePurchasePanel.SetActive(!owned);
+
+            if (rakeUpgradeRows != null)
+                rakeUpgradeRows.SetActive(owned);
+
+            if (rakePurchasePriceText != null)
+            {
+                rakePurchasePriceText.text =
+                    $"${rakeUpgrades.rakePriceCents / 100m:F2}";
+            }
+
+            if (purchaseRakeButton != null)
+            {
+                purchaseRakeButton.interactable =
+                    !owned &&
+                    wallet != null &&
+                    wallet.BalanceCents >=
+                    rakeUpgrades.rakePriceCents;
+            }
+
+            RefreshRakeRow(rakeSpeedRow, RakeUpgradeType.Speed);
+            RefreshRakeRow(rakeWidthRow, RakeUpgradeType.Width);
+            RefreshRakeRow(
+                rakeStrengthRow, RakeUpgradeType.Strength);
+        }
+    }
+
+    private void RefreshHandRow(
         UpgradeRow row,
         LeafUpgradeType type)
     {
@@ -167,14 +278,36 @@ public class LeafShopUI : MonoBehaviour
                 upgrades.GetEffectDescription(type);
 
         if (row.priceText != null)
-        {
             row.priceText.text = price < 0
                 ? "MAX"
-                : $"${(price / 100m):F2}";
-        }
+                : $"${price / 100m:F2}";
 
         if (row.buyButton != null)
             row.buyButton.interactable =
                 upgrades.CanPurchase(type);
+    }
+
+    private void RefreshRakeRow(
+        UpgradeRow row,
+        RakeUpgradeType type)
+    {
+        int level = rakeUpgrades.GetLevel(type);
+        int price = rakeUpgrades.GetPrice(type);
+
+        if (row.levelText != null)
+            row.levelText.text = $"Level {level}";
+
+        if (row.effectText != null)
+            row.effectText.text =
+                rakeUpgrades.GetEffectDescription(type);
+
+        if (row.priceText != null)
+            row.priceText.text = price < 0
+                ? "MAX"
+                : $"${price / 100m:F2}";
+
+        if (row.buyButton != null)
+            row.buyButton.interactable =
+                rakeUpgrades.CanPurchase(type);
     }
 }
