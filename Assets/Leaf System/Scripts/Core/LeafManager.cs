@@ -261,7 +261,8 @@ public class LeafManager : MonoBehaviour
 
         LeafData leaf = leaves[id];
 
-        if (leaf.state != LeafState.Resting)
+        if (leaf.state != LeafState.Resting &&
+            leaf.state != LeafState.Moving)
             return false;
 
         Vector2Int oldCell =
@@ -299,6 +300,31 @@ public class LeafManager : MonoBehaviour
 
         if (oldCell != newCell)
             OnChunkChanged?.Invoke(newCell);
+
+        return true;
+    }
+
+    public bool SetLeafMotion(
+        int id,
+        Vector3 velocity,
+        bool moving)
+    {
+        if (id < 0 || id >= leaves.Count)
+            return false;
+
+        LeafData leaf = leaves[id];
+
+        if (leaf.state != LeafState.Resting &&
+            leaf.state != LeafState.Moving)
+            return false;
+
+        leaf.velocity = moving ? velocity : Vector3.zero;
+
+        leaf.state = moving
+            ? LeafState.Moving
+            : LeafState.Resting;
+
+        leaves[id] = leaf;
 
         return true;
     }

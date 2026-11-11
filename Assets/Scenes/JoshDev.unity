@@ -6397,6 +6397,7 @@ GameObject:
   - component: {fileID: 1075979202}
   - component: {fileID: 1075979201}
   - component: {fileID: 1075979203}
+  - component: {fileID: 1075979204}
   m_Layer: 0
   m_Name: LeafSystem
   m_TagString: Untagged
@@ -6530,6 +6531,33 @@ MonoBehaviour:
   castShadows: 0
   receiveShadows: 0
   enableFrustumCulling: 1
+--- !u!114 &1075979204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075979198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfc1f366495c2b746b26e2ed2c704df4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LeafPhysicsSystem
+  leafManager: {fileID: 1075979202}
+  friction: 4
+  sleepSpeed: 0.08
+  maximumSpeed: 6
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  groundRayHeight: 2
+  groundRayDistance: 5
+  surfaceOffset: 0.04
+  collisionRadius: 0.06
+  maxActiveLeaves: 2000
 --- !u!1001 &1091774248
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11362,7 +11390,7 @@ Transform:
   m_GameObject: {fileID: 1757564214}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.100000024, z: 0}
+  m_LocalPosition: {x: 0, y: -0.405, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11951,6 +11979,10 @@ MonoBehaviour:
   leafClearance: 0.04
   collisionRadius: 0.06
   showRakeArea: 1
+  logStrokes: 1
+  leafPhysics: {fileID: 1075979204}
+  rakeImpulse: 3.5
+  sidewaysVariation: 0.15
 --- !u!114 &1796611059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11965,7 +11997,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerToolController
   shopUI: {fileID: 1658292771}
   toolHolder: {fileID: 1757564215}
-  rakeVisualPrefab: {fileID: 0}
+  rakeVisualPrefab: {fileID: 1903989408742129160, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
 --- !u!114 &1796611060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14053,6 +14085,63 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.20054093, y: 0.07749368, z: 0.020918796}
   m_Center: {x: -0.029729549, y: 0.025946992, z: 0.00045939488}
+--- !u!1001 &36783073398112872
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1236102767968150706, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236102767968150706, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236102767968150706, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236102767968150706, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5834566
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236102767968150706, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.8121444
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236102767968150706, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236102767968150706, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236102767968150706, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 108.612
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236102767968150706, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236102767968150706, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1903989408742129160, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
+      propertyPath: m_Name
+      value: Rake
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
 --- !u!1001 &2515854853689128557
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14131,3 +14220,4 @@ SceneRoots:
   - {fileID: 1596068716}
   - {fileID: 15702038}
   - {fileID: 1426242630}
+  - {fileID: 36783073398112872}

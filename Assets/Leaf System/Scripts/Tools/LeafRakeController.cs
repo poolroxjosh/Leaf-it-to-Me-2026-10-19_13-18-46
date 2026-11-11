@@ -40,6 +40,15 @@ public class LeafRakeController : MonoBehaviour
     public bool showRakeArea = true;
     public bool logStrokes = true;
 
+    [Header("Physics")]
+    public LeafPhysicsSystem leafPhysics;
+
+    [Min(0.1f)]
+    public float rakeImpulse = 3.5f;
+
+    [Range(0f, 1f)]
+    public float sidewaysVariation = 0.15f;
+
     private float nextStrokeTime;
 
     private readonly List<int> candidates =
@@ -132,8 +141,6 @@ public class LeafRakeController : MonoBehaviour
 
         int moved = 0;
         int insideArea = 0;
-        int blocked = 0;
-        int noGround = 0;
 
         foreach (int id in candidates)
         {
@@ -152,93 +159,56 @@ public class LeafRakeController : MonoBehaviour
                 relative, forward
             );
 
-            float sideways = Vector3.Dot(
+            float sidewaysDistance = Vector3.Dot(
                 relative, right
             );
 
             // Check rectangular rake area.
             if (depth < nearDistance ||
                 depth > farDistance ||
-                Mathf.Abs(sideways) > halfWidth)
+                Mathf.Abs(sidewaysDistance) > halfWidth)
                 continue;
 
             insideArea++;
 
-            float allowedPull = Mathf.Min(
-                pullDistance,
-                depth - nearDistance
+            float strength = Mathf.Max(
+                0.1f,
+                pullDistance
             );
 
-            if (allowedPull <= 0f)
-                continue;
+            // Pull toward the player.
+            Vector3 pullDirection = -forward;
 
-            Vector3 desiredPosition =
-                leaf.position - forward * allowedPull;
+            // Add subtle random sideways movement.
+            float randomSideways = Random.Range(
+                -sidewaysVariation,
+                sidewaysVariation
+            );
 
-            Vector3 travel =
-                desiredPosition - leaf.position;
+            Vector3 impulseDirection =
+                (pullDirection + right * randomSideways).normalized;
 
-            float travelDistance = travel.magnitude;
+            // Leaves farther away receive slightly
+            // more force during the rake stroke.
+            float depthFactor = Mathf.InverseLerp(
+                nearDistance,
+                farDistance,
+                depth
+            );
 
-            // Prevent leaves crossing solid obstacles.
-            if (travelDistance > 0.001f &&
-                Physics.SphereCast(
-                    leaf.position + Vector3.up * 0.1f,
-                    collisionRadius,
-                    travel.normalized,
-                    out RaycastHit obstacleHit,
-                    travelDistance,
-                    obstacleLayers,
-                    QueryTriggerInteraction.Ignore))
+            float impulseMagnitude =
+                rakeImpulse *
+                strength *
+                Mathf.Lerp(0.75f, 1.25f, depthFactor);
+
+            Vector3 impulse =
+                impulseDirection * impulseMagnitude;
+
+            if (leafPhysics != null &&
+                leafPhysics.ApplyImpulse(id, impulse))
             {
-                float safeDistance = Mathf.Max(
-                    0f,
-                    obstacleHit.distance - 0.01f
-                );
-
-                desiredPosition =
-                    leaf.position +
-                    travel.normalized * safeDistance;
-            }
-
-            // Find the ground at the destination.
-            Vector3 destinationRayOrigin =
-                desiredPosition +
-                Vector3.up * groundRayHeight;
-
-            if (!Physics.Raycast(
-                destinationRayOrigin,
-                Vector3.down,
-                out RaycastHit groundHit,
-                groundRayDistance,
-                groundLayers,
-                QueryTriggerInteraction.Ignore))
-            {
-                noGround++;
-                continue;
-            }
-
-            Vector3 finalPosition =
-                groundHit.point +
-                groundHit.normal * leafClearance;
-
-            // Check whether destination is blocked.
-            if (Physics.CheckSphere(
-                finalPosition + Vector3.up * 0.08f,
-                collisionRadius,
-                obstacleLayers,
-                QueryTriggerInteraction.Ignore))
-            {
-                blocked++;
-                continue;
-            }
-
-            if ((finalPosition - leaf.position).sqrMagnitude
-                < 0.000001f)
-                continue;
-
-            if (leafManager.MoveLeaf(id, finalPosition))
                 moved++;
+            }
         }
 
         if (logStrokes)
@@ -247,9 +217,9 @@ public class LeafRakeController : MonoBehaviour
                 $"RAKE STROKE | " +
                 $"Candidates: {candidates.Count} | " +
                 $"Inside Area: {insideArea} | " +
-                $"Moved: {moved} | " +
-                $"Blocked: {blocked} | " +
-                $"No Ground: {noGround}"
+                $"Impulses Applied: {moved} | " +
+                $"Active Physics Leaves: " +
+                $"{(leafPhysics != null ? leafPhysics.ActiveLeafCount : 0)}"
             );
         }
     }
