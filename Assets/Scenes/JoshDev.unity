@@ -1103,6 +1103,8 @@ MonoBehaviour:
   inventory: {fileID: 1796611051}
   leafFillImage: {fileID: 1171451364}
   capacityText: {fileID: 179252427}
+  normalTextColor: {r: 1, g: 1, b: 1, a: 1}
+  fullTextColor: {r: 1, g: 0.25, b: 0.2, a: 1}
   fillSmoothSpeed: 5
 --- !u!1 &179252425
 GameObject:
