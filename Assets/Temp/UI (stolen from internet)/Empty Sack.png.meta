@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: eabfb0f1354710b498ec7dddcb0694a3
+guid: fa8375cd335843f459d287dfff98efc7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4568826068322414841
-    second: Bag-removebg-preview_0
+      213: 4865141278246878764
+    second: Empty Sack_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -115,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bag-removebg-preview_0
+      name: Empty Sack_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 300
-        height: 300
+        width: 603
+        height: 664
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,8 +130,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 70f0915c5e44890c0800000000000000
-      internalID: -4568826068322414841
+      spriteID: c2ebef74734748340800000000000000
+      internalID: 4865141278246878764
       vertices: []
       indices: 
       edges: []
@@ -150,7 +150,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Bag-removebg-preview_0: -4568826068322414841
+      Empty Sack_0: 4865141278246878764
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
