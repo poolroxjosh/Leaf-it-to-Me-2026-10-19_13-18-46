@@ -91,19 +91,19 @@ public class LeafShopCardsUI : MonoBehaviour
         CreateHandCard(
             LeafUpgradeType.BagSize,
             "Bag Size",
-            "Carry more leaves before depositing."
+            "Carry more leaves around."
         );
 
         CreateHandCard(
             LeafUpgradeType.Dexterity,
             "Dexterity",
-            "Pick up leaves more frequently."
+            "Pick up leaves more quickly."
         );
 
         CreateHandCard(
             LeafUpgradeType.GraspAmount,
             "Grasp",
-            "Pick up more leaves per click."
+            "Pick up more leaves at a time."
         );
     }
 
