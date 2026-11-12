@@ -219,4 +219,61 @@ public class LeafUpgradeManager : MonoBehaviour
                 return "";
         }
     }
+
+    public string GetNextEffectDescription(LeafUpgradeType type)
+    {
+        int level = GetLevel(type);
+
+        if (level >= GetMaxLevel(type))
+            return "Maximum level reached";
+
+        switch (type)
+        {
+            case LeafUpgradeType.BagSize:
+            {
+                int current =
+                    startingBagCapacity +
+                    level * capacityPerLevel;
+
+                int next =
+                    startingBagCapacity +
+                    (level + 1) * capacityPerLevel;
+
+                return $"{current} → {next} leaves";
+            }
+
+            case LeafUpgradeType.Dexterity:
+            {
+                float current = Mathf.Max(
+                    minimumCooldown,
+                    startingCooldown -
+                    level * cooldownReductionPerLevel
+                );
+
+                float next = Mathf.Max(
+                    minimumCooldown,
+                    startingCooldown -
+                    (level + 1) * cooldownReductionPerLevel
+                );
+
+                return $"{current:F2}s → {next:F2}s";
+            }
+
+            case LeafUpgradeType.GraspAmount:
+            {
+                int current =
+                    startingGraspAmount +
+                    level * graspIncreasePerLevel;
+
+                int next =
+                    startingGraspAmount +
+                    (level + 1) * graspIncreasePerLevel;
+
+                return $"{current}/click → {next}/click";
+            }
+
+            default:
+                return "";
+        }
+    }
 }

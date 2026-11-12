@@ -194,4 +194,59 @@ public class LeafRakeUpgradeManager : MonoBehaviour
 
         return "";
     }
+
+    public string GetNextEffectDescription(RakeUpgradeType type)
+    {
+        int level = GetLevel(type);
+
+        if (level >= maxUpgradeLevel)
+            return "Maximum level reached";
+
+        switch (type)
+        {
+            case RakeUpgradeType.Speed:
+            {
+                float current = Mathf.Max(
+                    minimumCooldown,
+                    startingCooldown -
+                    level * cooldownReduction
+                );
+
+                float next = Mathf.Max(
+                    minimumCooldown,
+                    startingCooldown -
+                    (level + 1) * cooldownReduction
+                );
+
+                return $"{current:F2}s → {next:F2}s";
+            }
+
+            case RakeUpgradeType.Width:
+            {
+                float current =
+                    startingWidth + level * widthPerLevel;
+
+                float next =
+                    startingWidth + (level + 1) * widthPerLevel;
+
+                return $"{current:F2}m → {next:F2}m";
+            }
+
+            case RakeUpgradeType.Strength:
+            {
+                float current =
+                    startingPullDistance +
+                    level * pullDistancePerLevel;
+
+                float next =
+                    startingPullDistance +
+                    (level + 1) * pullDistancePerLevel;
+
+                return $"{current:F2} → {next:F2} strength";
+            }
+
+            default:
+                return "";
+        }
+    }
 }

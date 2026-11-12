@@ -47,6 +47,13 @@ public class LeafShopUI : MonoBehaviour
     public UpgradeRow rakeWidthRow;
     public UpgradeRow rakeStrengthRow;
 
+    [Header("Tab Appearance")]
+    public Color activeTabColor =
+        new Color32(181, 166, 151, 255);
+
+    public Color inactiveTabColor =
+        new Color32(255, 249, 239, 255);
+
     public bool IsOpen { get; private set; }
 
     private bool showingRakeTab;
@@ -172,14 +179,32 @@ public class LeafShopUI : MonoBehaviour
         showingRakeTab = true;
         RefreshTabs();
     }
-
+    
     private void RefreshTabs()
     {
+        // Switch between Hand and Rake content.
         if (handUpgradesPanel != null)
             handUpgradesPanel.SetActive(!showingRakeTab);
 
         if (rakeUpgradesPanel != null)
             rakeUpgradesPanel.SetActive(showingRakeTab);
+
+        // Highlight the currently selected tab.
+        if (handTabButton != null)
+        {
+            handTabButton.image.color =
+                showingRakeTab
+                    ? inactiveTabColor
+                    : activeTabColor;
+        }
+
+        if (rakeTabButton != null)
+        {
+            rakeTabButton.image.color =
+                showingRakeTab
+                    ? activeTabColor
+                    : inactiveTabColor;
+        }
 
         Refresh();
     }
@@ -229,37 +254,6 @@ public class LeafShopUI : MonoBehaviour
             RefreshHandRow(bagRow, LeafUpgradeType.BagSize);
             RefreshHandRow(dexterityRow, LeafUpgradeType.Dexterity);
             RefreshHandRow(graspRow, LeafUpgradeType.GraspAmount);
-        }
-
-        if (rakeUpgrades != null)
-        {
-            bool owned = rakeUpgrades.IsRakeOwned;
-
-            if (rakePurchasePanel != null)
-                rakePurchasePanel.SetActive(!owned);
-
-            if (rakeUpgradeRows != null)
-                rakeUpgradeRows.SetActive(owned);
-
-            if (rakePurchasePriceText != null)
-            {
-                rakePurchasePriceText.text =
-                    $"${rakeUpgrades.rakePriceCents / 100m:F2}";
-            }
-
-            if (purchaseRakeButton != null)
-            {
-                purchaseRakeButton.interactable =
-                    !owned &&
-                    wallet != null &&
-                    wallet.BalanceCents >=
-                    rakeUpgrades.rakePriceCents;
-            }
-
-            RefreshRakeRow(rakeSpeedRow, RakeUpgradeType.Speed);
-            RefreshRakeRow(rakeWidthRow, RakeUpgradeType.Width);
-            RefreshRakeRow(
-                rakeStrengthRow, RakeUpgradeType.Strength);
         }
     }
 
