@@ -43,6 +43,9 @@ public class LeafRakeController : MonoBehaviour
     [Header("Physics")]
     public LeafPhysicsSystem leafPhysics;
 
+    [Header("Wheelbarrow Movement")]
+    public WheelbarrowMovementController wheelbarrowMovement;
+
     [Min(0.1f)]
     public float rakeImpulse = 3.5f;
 
@@ -56,6 +59,9 @@ public class LeafRakeController : MonoBehaviour
 
     private void Update()
     {
+        if (wheelbarrowMovement != null &&
+            wheelbarrowMovement.IsPushing)
+            return;
         if (toolController == null ||
             leafManager == null ||
             playerCamera == null)

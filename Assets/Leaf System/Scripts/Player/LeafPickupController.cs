@@ -41,6 +41,9 @@ public class LeafPickupController : MonoBehaviour
     [Header("Tools")]
     public PlayerToolController toolController;
 
+    [Header("Wheelbarrow Movement")]
+    public WheelbarrowMovementController wheelbarrowMovement;
+
     private float nextPickupTime;
     private int targetLeafId = -1;
 
@@ -59,6 +62,17 @@ public class LeafPickupController : MonoBehaviour
 
     private void Update()
     {
+        if (wheelbarrowMovement != null &&
+            wheelbarrowMovement.IsPushing)
+        {
+            targetLeafId = -1;
+
+            if (pickupVisuals != null)
+                pickupVisuals.ClearHighlight();
+
+            return;
+        }
+
         if (toolController != null &&
             toolController.EquippedTool != PlayerTool.Hands)
         {

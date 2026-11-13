@@ -24,6 +24,9 @@ public class FirstPersonController : MonoBehaviour
     private float verticalVelocity;
     private float cameraPitch;
 
+    [Header("Wheelbarrow")]
+    public WheelbarrowMovementController wheelbarrowController;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -39,7 +42,6 @@ public class FirstPersonController : MonoBehaviour
         if (playerCamera == null)
             return;
 
-        // The shop owns the cursor while it is open.
         if (shopUI != null && shopUI.IsOpen)
             return;
 
@@ -47,6 +49,14 @@ public class FirstPersonController : MonoBehaviour
 
         if (Cursor.lockState != CursorLockMode.Locked)
             return;
+
+        // Wheelbarrow movement and camera look are
+        // controlled by WheelbarrowMovementController.
+        if (wheelbarrowController != null &&
+            wheelbarrowController.IsPushing)
+        {
+            return;
+        }
 
         HandleLook();
         HandleMovement();
@@ -137,4 +147,24 @@ public class FirstPersonController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
+    public void SyncCameraPitch()
+    {
+        if (playerCamera == null)
+            return;
+
+        float pitch = playerCamera.localEulerAngles.x;
+
+        if (pitch > 180f)
+            pitch -= 360f;
+
+        cameraPitch = Mathf.Clamp(
+            pitch,
+            -maxLookAngle,
+            maxLookAngle
+        );
+
+        verticalVelocity = -2f;
+    }
+
 }

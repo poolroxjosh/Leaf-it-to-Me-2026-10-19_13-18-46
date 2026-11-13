@@ -30,6 +30,9 @@ public class LeafWheelbarrowInteraction : MonoBehaviour
     [Header("UI")]
     public LeafShopUI shopUI;
 
+    [Header("Wheelbarrow Movement")]
+    public WheelbarrowMovementController wheelbarrowMovement;
+
     public float depositDuration = 0.65f;
     public float arcHeight = 0.7f;
     public float visualScale = 0.2f;
@@ -126,7 +129,9 @@ public class LeafWheelbarrowInteraction : MonoBehaviour
 
     private void Update()
     {
-        if ((shopUI == null || !shopUI.IsOpen) &&
+        if ((wheelbarrowMovement == null ||
+            !wheelbarrowMovement.IsPushing) &&
+            (shopUI == null || !shopUI.IsOpen) &&
             Mouse.current != null &&
             Mouse.current.leftButton.wasPressedThisFrame &&
             IsAimingAtWheelbarrow())

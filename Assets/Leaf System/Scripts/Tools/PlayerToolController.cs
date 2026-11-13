@@ -18,6 +18,12 @@ public class PlayerToolController : MonoBehaviour
     public Transform toolHolder;
     public GameObject rakeVisualPrefab;
 
+    [Header("Wheelbarrow Movement")]
+    public WheelbarrowMovementController wheelbarrowMovement;
+
+    [Header("Tool Visuals")]
+    public PlayerToolController toolController;
+
     public PlayerTool EquippedTool { get; private set; }
         = PlayerTool.Hands;
 
@@ -40,6 +46,9 @@ public class PlayerToolController : MonoBehaviour
 
     private void Update()
     {
+        if (wheelbarrowMovement != null &&
+            wheelbarrowMovement.IsPushing)
+            return;
         if (shopUI != null && shopUI.IsOpen)
             return;
 
@@ -75,5 +84,15 @@ public class PlayerToolController : MonoBehaviour
         Debug.Log($"Equipped tool: {EquippedTool}");
 
         OnToolChanged?.Invoke();
+    }
+
+    public void SetToolVisualsVisible(bool visible)
+    {
+        if (rakeVisual != null)
+        {
+            rakeVisual.SetActive(
+                visible && EquippedTool == PlayerTool.Rake
+            );
+        }
     }
 }

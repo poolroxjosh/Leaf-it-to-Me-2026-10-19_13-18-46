@@ -47,6 +47,9 @@ public class LeafShopUI : MonoBehaviour
     public UpgradeRow rakeWidthRow;
     public UpgradeRow rakeStrengthRow;
 
+    [Header("Wheelbarrow Movement")]
+    public WheelbarrowMovementController wheelbarrowMovement;
+
     [Header("Tab Appearance")]
     public Color activeTabColor =
         new Color32(181, 166, 151, 255);
@@ -144,6 +147,10 @@ public class LeafShopUI : MonoBehaviour
 
     public void ToggleShop()
     {
+        if (wheelbarrowMovement != null &&
+            wheelbarrowMovement.IsPushing)
+            return;
+
         SetShopOpen(!IsOpen);
     }
 
@@ -154,6 +161,10 @@ public class LeafShopUI : MonoBehaviour
 
     public void SetShopOpen(bool open)
     {
+        if (open &&
+            wheelbarrowMovement != null &&
+            wheelbarrowMovement.IsPushing)
+            return;
         IsOpen = open;
 
         if (shopPanel != null)
