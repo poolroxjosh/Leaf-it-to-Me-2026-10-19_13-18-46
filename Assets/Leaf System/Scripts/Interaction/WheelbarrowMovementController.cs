@@ -49,6 +49,9 @@ public class WheelbarrowMovementController : MonoBehaviour
     [Header("Wheelbarrow Collision")]
     public Collider[] wheelbarrowColliders;
 
+    [Header("Tarp")]
+    public LeafTarpController tarpController;
+
     [Min(0.01f)]
     public float collisionPadding = 0.03f;
 
@@ -160,6 +163,13 @@ public class WheelbarrowMovementController : MonoBehaviour
 
     public bool CanGrabWheelbarrow()
     {
+
+        if (tarpController != null &&
+            tarpController.IsCarryingBag)
+        {
+            return false;
+        }
+
         if (IsPushing ||
             wheelbarrow == null ||
             playerCamera == null ||

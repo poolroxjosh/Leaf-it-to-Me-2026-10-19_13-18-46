@@ -158,6 +158,9 @@ public class LeafRakeController : MonoBehaviour
             if (leaf.state != LeafState.Resting)
                 continue;
 
+            if (leafManager.IsLeafProtected(id))
+                continue;
+
             Vector3 relative =
                 leaf.position - playerPosition;
 

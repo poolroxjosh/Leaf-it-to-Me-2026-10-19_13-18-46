@@ -16,6 +16,12 @@ public class LeafShopCardsUI : MonoBehaviour
     public Transform handContainer;
     public Transform rakeContainer;
 
+    [Header("Tarp")]
+    public LeafTarpUpgradeManager tarpUpgrades;
+    public Transform tarpContainer;
+
+    private LeafUpgradeCardUI tarpPurchaseCard;
+
     private struct HandCard
     {
         public LeafUpgradeType type;
@@ -48,6 +54,9 @@ public class LeafShopCardsUI : MonoBehaviour
         if (rakeUpgrades != null)
             rakeUpgrades.OnRakeUpgradesChanged += RefreshCards;
 
+        if (tarpUpgrades != null)
+            tarpUpgrades.OnTarpChanged += RefreshCards;
+
         RefreshCards();
     }
 
@@ -61,6 +70,9 @@ public class LeafShopCardsUI : MonoBehaviour
 
         if (rakeUpgrades != null)
             rakeUpgrades.OnRakeUpgradesChanged -= RefreshCards;
+
+        if (tarpUpgrades != null)
+            tarpUpgrades.OnTarpChanged -= RefreshCards;
     }
 
     private void Start()
@@ -80,6 +92,7 @@ public class LeafShopCardsUI : MonoBehaviour
 
         CreateHandCards();
         UpdateRakeCards();
+        CreateTarpCard();
         RefreshCards();
     }
 
@@ -281,5 +294,69 @@ public class LeafShopCardsUI : MonoBehaviour
                 rakeUpgrades.CanPurchase(item.type)
             );
         }
+
+        if (tarpPurchaseCard != null && tarpUpgrades != null)
+        {
+            bool owned = tarpUpgrades.IsTarpOwned;
+
+            bool rakeOwned =
+                rakeUpgrades != null &&
+                rakeUpgrades.IsRakeOwned;
+
+            string effect;
+
+            if (owned)
+            {
+                effect = "Purchased!";
+            }
+            else if (!rakeOwned)
+            {
+                effect = "Requires Rake";
+            }
+            else
+            {
+                effect = "Ready to unlock!";
+            }
+
+            tarpPurchaseCard.Refresh(
+                effect,
+                owned ? -1 : tarpUpgrades.tarpPriceCents,
+                tarpUpgrades.CanPurchaseTarp()
+            );
+        }
+
+        if (tarpPurchaseCard != null &&
+            tarpUpgrades != null &&
+            tarpUpgrades.IsTarpOwned)
+        {
+            tarpPurchaseCard.gameObject.SetActive(false);
+        }
     }
+
+
+    private void CreateTarpCard()
+    {
+        if (tarpUpgrades == null ||
+            tarpContainer == null ||
+            cardPrefab == null ||
+            tarpPurchaseCard != null)
+            return;
+
+        tarpPurchaseCard =
+            Instantiate(cardPrefab, tarpContainer, false);
+
+        tarpPurchaseCard.gameObject.name =
+            "Unlock Tarp Card";
+
+        tarpPurchaseCard.Initialize(
+            "Unlock Tarp",
+            "Gather raked leaves and carry them to the wheelbarrow.",
+            () =>
+            {
+                if (tarpUpgrades.PurchaseTarp())
+                    RefreshCards();
+            }
+        );
+    }
+
 }

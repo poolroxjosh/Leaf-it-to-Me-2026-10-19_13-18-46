@@ -91,11 +91,11 @@ public class LeafChunkRenderer : MonoBehaviour
 
     private void OnDisable()
     {
-        if (manager != null)
-        {
-            manager.OnChunkChanged -= MarkChunkDirty;
-            manager.OnLeavesCleared -= ClearChunks;
-        }
+        if (manager == null)
+            return;
+
+        manager.OnChunkChanged -= MarkChunkDirty;
+        manager.OnLeavesCleared -= ClearChunks;
         manager.OnBulkSpawnCompleted -= RebuildAllChunks;
     }
 
@@ -185,6 +185,15 @@ public class LeafChunkRenderer : MonoBehaviour
 
                 if (!meshes.ContainsKey(leaf.variantIndex))
                     continue;
+
+                // Exclude leaves hidden underneath the deployed tarp.
+                if (manager.activeTarp != null &&
+                    manager.activeTarp.ShouldHideLeafVisual(
+                        id,
+                        leaf.position))
+                {
+                    continue;
+                }
 
                 if (!grouped.TryGetValue(
                     leaf.variantIndex,

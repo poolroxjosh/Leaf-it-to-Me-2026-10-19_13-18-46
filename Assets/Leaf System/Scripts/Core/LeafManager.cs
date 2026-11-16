@@ -16,6 +16,15 @@ public class LeafManager : MonoBehaviour
         );
     }
 
+    [Header("Tarp")]
+    public LeafTarpSurface activeTarp;
+
+    public bool IsLeafProtected(int id)
+    {
+        return activeTarp != null &&
+            activeTarp.IsProtected(id);
+    }
+
     [Min(0.5f)]
     public float cellSize = 2f;
 
@@ -40,6 +49,9 @@ public class LeafManager : MonoBehaviour
 
     public void ClearLeaves()
     {
+        if (activeTarp != null)
+            activeTarp.ClearSurface();
+
         leaves.Clear();
         grid.Clear();
 
@@ -179,6 +191,9 @@ public class LeafManager : MonoBehaviour
                     if (leaf.state != LeafState.Resting)
                         continue;
 
+                    if (IsLeafProtected(id))
+                        continue;
+
                     if ((leaf.position - center).sqrMagnitude
                         > radiusSq)
                         continue;
@@ -194,6 +209,9 @@ public class LeafManager : MonoBehaviour
         leaf = default(LeafData);
 
         if (id < 0 || id >= leaves.Count)
+            return false;
+
+        if (IsLeafProtected(id))
             return false;
 
         leaf = leaves[id];
@@ -327,6 +345,103 @@ public class LeafManager : MonoBehaviour
         leaves[id] = leaf;
 
         return true;
+    }
+
+    public bool CollectTarpLeaf(int id)
+    {
+        if (id < 0 || id >= leaves.Count)
+            return false;
+
+        LeafData leaf = leaves[id];
+
+        if (leaf.state != LeafState.Resting &&
+            leaf.state != LeafState.Moving)
+            return false;
+
+        Vector2Int cell =
+            GetChunkCoordinate(leaf.position);
+
+        leaf.state = LeafState.Collected;
+        leaf.velocity = Vector3.zero;
+        leaves[id] = leaf;
+
+        CollectedLeaves++;
+
+        OnChunkChanged?.Invoke(cell);
+
+        return true;
+    }
+
+    public void RefreshLeafVisuals(IEnumerable<int> leafIds)
+    {
+        HashSet<Vector2Int> affectedChunks =
+            new HashSet<Vector2Int>();
+
+        foreach (int id in leafIds)
+        {
+            if (id < 0 || id >= leaves.Count)
+                continue;
+
+            Vector2Int chunk =
+                GetChunkCoordinate(leaves[id].position);
+
+            affectedChunks.Add(chunk);
+        }
+
+        foreach (Vector2Int chunk in affectedChunks)
+        {
+            OnChunkChanged?.Invoke(chunk);
+        }
+    }
+
+    public void FindLeavesInArea(
+        Vector3 center,
+        float radius,
+        List<int> results)
+    {
+        results.Clear();
+
+        if (radius <= 0f)
+            return;
+
+        Vector2Int min = GetCell(
+            center - new Vector3(radius, 0f, radius)
+        );
+
+        Vector2Int max = GetCell(
+            center + new Vector3(radius, 0f, radius)
+        );
+
+        float radiusSq = radius * radius;
+
+        for (int x = min.x; x <= max.x; x++)
+        {
+            for (int z = min.y; z <= max.y; z++)
+            {
+                Vector2Int cell = new Vector2Int(x, z);
+
+                if (!grid.TryGetValue(
+                    cell, out List<int> ids))
+                    continue;
+
+                foreach (int id in ids)
+                {
+                    LeafData leaf = leaves[id];
+
+                    if (leaf.state == LeafState.Collected ||
+                        leaf.state == LeafState.BeingCollected)
+                        continue;
+
+                    Vector3 offset = leaf.position - center;
+                    offset.y = 0f;
+
+                    if (offset.sqrMagnitude > radiusSq)
+                        continue;
+
+                    results.Add(id);
+                }
+            }
+        }
     }
 
 }

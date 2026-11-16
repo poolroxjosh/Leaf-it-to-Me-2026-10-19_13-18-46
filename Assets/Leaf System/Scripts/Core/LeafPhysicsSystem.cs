@@ -142,8 +142,20 @@ public class LeafPhysicsSystem : MonoBehaviour
 
             Vector3 velocity = leaf.velocity;
 
-            // Exponential friction gives smooth slowing.
-            velocity *= Mathf.Exp(-friction * dt);
+            // Apply different friction depending on
+            // whether the leaf is on the tarp.
+            float currentFriction = friction;
+
+            LeafTarpSurface tarp = leafManager.activeTarp;
+
+            if (tarp != null &&
+                tarp.IsDeployed &&
+                tarp.IsCaptured(id))
+            {
+                currentFriction *= tarp.frictionMultiplier;
+            }
+
+            velocity *= Mathf.Exp(-currentFriction * dt);
             velocity.y = 0f;
 
             if (velocity.magnitude <= sleepSpeed)
@@ -219,6 +231,23 @@ public class LeafPhysicsSystem : MonoBehaviour
                 groundHit.point +
                 groundHit.normal * surfaceOffset;
 
+            // If this leaf is moving onto or across
+            // the tarp, use the tarp's upper surface.
+            if (tarp != null &&
+                tarp.IsDeployed &&
+                !tarp.IsCovered(id) &&
+                tarp.ContainsPosition(proposedPosition))
+            {
+                float tarpY =
+                    tarp.GetSurfaceY(proposedPosition) +
+                    surfaceOffset;
+
+                finalPosition.y = Mathf.Max(
+                    finalPosition.y,
+                    tarpY
+                );
+            }
+
             // Reject destinations overlapping obstacles.
             if (Physics.CheckSphere(
                 finalPosition + Vector3.up * 0.08f,
@@ -233,8 +262,20 @@ public class LeafPhysicsSystem : MonoBehaviour
                 RemoveActive(i, id);
                 continue;
             }
+    
+            Vector3 previousPosition = leaf.position;
 
-            leafManager.MoveLeaf(id, finalPosition);
+            if (leafManager.MoveLeaf(id, finalPosition))
+            {
+                if (tarp != null && tarp.IsDeployed)
+                {
+                    tarp.UpdateLeafMembership(
+                        id,
+                        previousPosition,
+                        finalPosition
+                    );
+                }
+            }
 
             if (velocity.sqrMagnitude <
                 sleepSpeed * sleepSpeed)

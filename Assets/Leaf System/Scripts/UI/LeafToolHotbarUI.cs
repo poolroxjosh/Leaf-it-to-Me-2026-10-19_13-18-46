@@ -22,6 +22,9 @@ public class LeafToolHotbarUI : MonoBehaviour
     public WheelbarrowMovementController wheelbarrowMovement;
     public CanvasGroup canvasGroup;
 
+    [Header("Additional Tool Icons")]
+    public Sprite tarpIcon;
+
     private readonly Dictionary<PlayerTool, LeafToolSlotUI> slots =
         new Dictionary<PlayerTool, LeafToolSlotUI>();
 
@@ -67,6 +70,16 @@ public class LeafToolHotbarUI : MonoBehaviour
                 "Rake",
                 "2",
                 rakeIcon
+            );
+        }
+
+        if (toolController.HasTarp)
+        {
+            EnsureSlot(
+                PlayerTool.Tarp,
+                "Tarp",
+                "3",
+                tarpIcon
             );
         }
 

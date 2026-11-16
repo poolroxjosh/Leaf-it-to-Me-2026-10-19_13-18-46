@@ -1788,6 +1788,143 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.20054093, y: 0.07749368, z: 0.020918796}
   m_Center: {x: -0.029729549, y: 0.025946992, z: 0.00045939488}
+--- !u!1 &283182857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 283182858}
+  - component: {fileID: 283182860}
+  - component: {fileID: 283182859}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &283182858
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283182857}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1199689113}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &283182859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283182857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Tarp
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: bd69bafc61cc93f4e9316f99b3a871cb, type: 2}
+  m_sharedMaterial: {fileID: -540398373837085200, guid: bd69bafc61cc93f4e9316f99b3a871cb, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4281479730
+  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 30
+  m_fontSizeBase: 30
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656bu
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &283182860
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283182857}
+  m_CullTransparentMesh: 1
 --- !u!1001 &303244938
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2087,6 +2224,106 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.20054093, y: 0.07749368, z: 0.020918796}
   m_Center: {x: -0.029729549, y: 0.025946992, z: 0.00045939488}
+--- !u!1 &359931888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 359931889}
+  - component: {fileID: 359931892}
+  - component: {fileID: 359931891}
+  - component: {fileID: 359931890}
+  m_Layer: 5
+  m_Name: TarpUpgradesPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &359931889
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359931888}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1353035688}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -74.99997}
+  m_SizeDelta: {x: 0, y: -150.00006}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &359931890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359931888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 280, y: 220}
+  m_Spacing: {x: 15, y: 15}
+  m_Constraint: 0
+  m_ConstraintCount: 3
+--- !u!114 &359931891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359931888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &359931892
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359931888}
+  m_CullTransparentMesh: 1
 --- !u!1001 &368572008
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2337,6 +2574,7 @@ MonoBehaviour:
   shopUI: {fileID: 1658292771}
   wheelbarrowMovement: {fileID: 1796611061}
   canvasGroup: {fileID: 399734139}
+  tarpIcon: {fileID: 0}
 --- !u!225 &399734139
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -5823,6 +6061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0f05a6182b2cd47bc3fd690180a911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeafManager
+  activeTarp: {fileID: 0}
   cellSize: 8
 --- !u!114 &1075979203
 MonoBehaviour:
@@ -6422,6 +6661,150 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171451362}
+  m_CullTransparentMesh: 1
+--- !u!1 &1199689112
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1199689113}
+  - component: {fileID: 1199689117}
+  - component: {fileID: 1199689116}
+  - component: {fileID: 1199689115}
+  - component: {fileID: 1199689114}
+  m_Layer: 5
+  m_Name: TarpTabButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1199689113
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199689112}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 283182858}
+  m_Father: {fileID: 2054641556}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1199689114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199689112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 200
+  m_PreferredHeight: 45
+  m_FlexibleWidth: 1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
+  m_MaxWidth: -1
+  m_MaxHeight: -1
+--- !u!114 &1199689115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199689112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1199689116}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1199689116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199689112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1199689117
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199689112}
   m_CullTransparentMesh: 1
 --- !u!1001 &1231114083
 PrefabInstance:
@@ -7047,6 +7430,7 @@ RectTransform:
   - {fileID: 2054641556}
   - {fileID: 1133339997}
   - {fileID: 1921956236}
+  - {fileID: 359931889}
   m_Father: {fileID: 1658292769}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -8503,8 +8887,10 @@ MonoBehaviour:
   shopBalanceText: {fileID: 0}
   handUpgradesPanel: {fileID: 1133339996}
   rakeUpgradesPanel: {fileID: 1921956235}
+  tarpUpgradesPanel: {fileID: 359931888}
   handTabButton: {fileID: 433918608}
   rakeTabButton: {fileID: 409515035}
+  tarpTabButton: {fileID: 1199689115}
   bagRow:
     levelText: {fileID: 0}
     effectText: {fileID: 0}
@@ -8539,7 +8925,7 @@ MonoBehaviour:
     effectText: {fileID: 0}
     priceText: {fileID: 0}
     buyButton: {fileID: 0}
-  wheelbarrowMovement: {fileID: 0}
+  wheelbarrowMovement: {fileID: 1796611061}
   activeTabColor: {r: 0.70980394, g: 0.6509804, b: 0.5921569, a: 1}
   inactiveTabColor: {r: 1, g: 0.9764706, b: 0.9372549, a: 1}
 --- !u!114 &1658292772
@@ -8580,6 +8966,8 @@ MonoBehaviour:
   cardPrefab: {fileID: 7569324538670002565, guid: a82651c6b6083d5449d17c3129bf13b0, type: 3}
   handContainer: {fileID: 1133339997}
   rakeContainer: {fileID: 1921956236}
+  tarpUpgrades: {fileID: 1796611062}
+  tarpContainer: {fileID: 359931889}
 --- !u!4 &1670158507 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1257308926025133352, guid: eea04246642653047adbab5359474b97, type: 3}
@@ -9439,6 +9827,8 @@ GameObject:
   - component: {fileID: 1796611059}
   - component: {fileID: 1796611058}
   - component: {fileID: 1796611061}
+  - component: {fileID: 1796611062}
+  - component: {fileID: 1796611063}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -9580,6 +9970,7 @@ MonoBehaviour:
   maxVisualLeaves: 12
   shopUI: {fileID: 1658292771}
   wheelbarrowMovement: {fileID: 1796611061}
+  tarpController: {fileID: 1796611063}
   depositDuration: 1.5
   arcHeight: 1
   visualScale: 1
@@ -9626,7 +10017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d49c7f28a2d75594e982a6eaa63f2e07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeafWallet
-  balanceCents: 0
+  balanceCents: 100000
   lifetimeEarningsCents: 0
 --- !u!114 &1796611055
 MonoBehaviour:
@@ -9819,10 +10210,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerToolController
   shopUI: {fileID: 1658292771}
+  wheelbarrowMovement: {fileID: 1796611061}
   toolHolder: {fileID: 1757564215}
   rakeVisualPrefab: {fileID: 2237375786642662637, guid: 2bac970946956234291cb4fd7029e1b0, type: 3}
-  wheelbarrowMovement: {fileID: 1796611061}
-  toolController: {fileID: 1796611059}
 --- !u!114 &1796611060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9895,8 +10285,66 @@ MonoBehaviour:
   showDebugGizmos: 1
   wheelbarrowColliders:
   - {fileID: 2065914904}
+  tarpController: {fileID: 1796611063}
   collisionPadding: 0.03
   ignorePlayerCollisionWhilePushing: 1
+--- !u!114 &1796611062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1796611046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1442e069a02ad4e944c4d02107160a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LeafTarpUpgradeManager
+  wallet: {fileID: 1796611054}
+  rakeUpgrades: {fileID: 1796611060}
+  toolController: {fileID: 1796611059}
+  tarpPriceCents: 1000
+--- !u!114 &1796611063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1796611046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9735fcca9271947a445166bdc0de5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LeafTarpController
+  toolController: {fileID: 1796611059}
+  leafManager: {fileID: 1075979202}
+  shopUI: {fileID: 1658292771}
+  wheelbarrowMovement: {fileID: 1796611061}
+  playerCamera: {fileID: 961739752}
+  toolHolder: {fileID: 1757564215}
+  deployedTarpPrefab: {fileID: 4819791091076234376, guid: 308ed7d3be05d0647b16f628772c702d, type: 3}
+  bundledBagPrefab: {fileID: 8942847260475855406, guid: dd3d08f0c38ffd745ae587870c9c01c5, type: 3}
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 640
+  placementRange: 5
+  maxPlacementSlope: 20
+  placementOffset: 0.025
+  obstacleCheckHeight: 0.15
+  gatherRange: 3.5
+  tarpInteractionLayers:
+    serializedVersion: 2
+    m_Bits: 1664
+  bagLocalPosition: {x: 2, y: -0.3, z: 0.5}
+  hologramPrefab: {fileID: 1949220800833609357, guid: ae41e7da3d7d9c64ca098b3199414ddb, type: 3}
+  validHologramColor: {r: 0.3, g: 1, b: 0.4, a: 0.4}
+  invalidHologramColor: {r: 1, g: 0.25, b: 0.25, a: 0.4}
+  hologramHeightOffset: 0.01
+  bagLocalRotation: {x: 0, y: 0, z: 0}
+  bagLocalScale: {x: 1, y: 1, z: 1}
 --- !u!1 &1805314724 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1007d3dfa0dcc074f83cf81d8c1c0810, type: 3}
@@ -10894,12 +11342,13 @@ RectTransform:
   m_Children:
   - {fileID: 433918607}
   - {fileID: 409515034}
+  - {fileID: 1199689113}
   m_Father: {fileID: 1353035688}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -100}
-  m_SizeDelta: {x: 500, y: 50}
+  m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2054641557
 MonoBehaviour:

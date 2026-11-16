@@ -33,6 +33,9 @@ public class LeafWheelbarrowInteraction : MonoBehaviour
     [Header("Wheelbarrow Movement")]
     public WheelbarrowMovementController wheelbarrowMovement;
 
+    [Header("Tarp")]
+    public LeafTarpController tarpController;
+
     public float depositDuration = 0.65f;
     public float arcHeight = 0.7f;
     public float visualScale = 0.2f;
@@ -144,6 +147,26 @@ public class LeafWheelbarrowInteraction : MonoBehaviour
 
     private void TryDeposit()
     {
+        if (tarpController != null &&
+            tarpController.IsCarryingBag)
+        {
+            int tarpAccepted =
+                tarpController.DepositIntoWheelbarrow(
+                    wheelbarrow,
+                    wallet
+                );
+
+            if (tarpAccepted > 0)
+            {
+                if (dropoffAudio != null)
+                    dropoffAudio.PlayDropoffSound();
+
+                SpawnDepositVisuals(tarpAccepted);
+            }
+
+            return;
+        }
+
         if (inventory == null ||
             wheelbarrow == null ||
             wallet == null)

@@ -28,8 +28,11 @@ public class LeafShopUI : MonoBehaviour
     [Header("Tabs")]
     public GameObject handUpgradesPanel;
     public GameObject rakeUpgradesPanel;
+    public GameObject tarpUpgradesPanel;
+
     public Button handTabButton;
     public Button rakeTabButton;
+    public Button tarpTabButton;
 
     [Header("Hand Upgrades")]
     public UpgradeRow bagRow;
@@ -59,7 +62,14 @@ public class LeafShopUI : MonoBehaviour
 
     public bool IsOpen { get; private set; }
 
-    private bool showingRakeTab;
+    private enum ShopTab
+    {
+        Hand,
+        Rake,
+        Tarp
+    }
+
+    private ShopTab activeTab = ShopTab.Hand;
 
     private void Awake()
     {
@@ -116,6 +126,9 @@ public class LeafShopUI : MonoBehaviour
 
         if (rakeTabButton != null)
             rakeTabButton.onClick.AddListener(ShowRakeTab);
+
+        if (tarpTabButton != null)
+            tarpTabButton.onClick.AddListener(ShowTarpTab);
 
         if (bagRow.buyButton != null)
             bagRow.buyButton.onClick.AddListener(
@@ -181,38 +194,65 @@ public class LeafShopUI : MonoBehaviour
 
     public void ShowHandTab()
     {
-        showingRakeTab = false;
+        activeTab = ShopTab.Hand;
         RefreshTabs();
     }
 
     public void ShowRakeTab()
     {
-        showingRakeTab = true;
+        activeTab = ShopTab.Rake;
         RefreshTabs();
     }
-    
+
+    public void ShowTarpTab()
+    {
+        activeTab = ShopTab.Tarp;
+        RefreshTabs();
+    }
+
     private void RefreshTabs()
     {
-        // Switch between Hand and Rake content.
         if (handUpgradesPanel != null)
-            handUpgradesPanel.SetActive(!showingRakeTab);
+        {
+            handUpgradesPanel.SetActive(
+                activeTab == ShopTab.Hand
+            );
+        }
 
         if (rakeUpgradesPanel != null)
-            rakeUpgradesPanel.SetActive(showingRakeTab);
+        {
+            rakeUpgradesPanel.SetActive(
+                activeTab == ShopTab.Rake
+            );
+        }
 
-        // Highlight the currently selected tab.
+        if (tarpUpgradesPanel != null)
+        {
+            tarpUpgradesPanel.SetActive(
+                activeTab == ShopTab.Tarp
+            );
+        }
+
         if (handTabButton != null)
         {
             handTabButton.image.color =
-                showingRakeTab
-                    ? inactiveTabColor
-                    : activeTabColor;
+                activeTab == ShopTab.Hand
+                    ? activeTabColor
+                    : inactiveTabColor;
         }
 
         if (rakeTabButton != null)
         {
             rakeTabButton.image.color =
-                showingRakeTab
+                activeTab == ShopTab.Rake
+                    ? activeTabColor
+                    : inactiveTabColor;
+        }
+
+        if (tarpTabButton != null)
+        {
+            tarpTabButton.image.color =
+                activeTab == ShopTab.Tarp
                     ? activeTabColor
                     : inactiveTabColor;
         }
