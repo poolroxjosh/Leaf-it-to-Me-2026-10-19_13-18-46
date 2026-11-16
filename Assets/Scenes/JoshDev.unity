@@ -9626,7 +9626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d49c7f28a2d75594e982a6eaa63f2e07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeafWallet
-  balanceCents: 10000
+  balanceCents: 0
   lifetimeEarningsCents: 0
 --- !u!114 &1796611055
 MonoBehaviour:
