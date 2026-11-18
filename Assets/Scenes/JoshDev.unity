@@ -11216,16 +11216,16 @@ MonoBehaviour:
   pickupController: {fileID: 1796611050}
   startingBagCapacity: 25
   capacityPerLevel: 25
-  bagBasePriceCents: 100
+  bagBasePriceCents: 50
   bagPriceMultiplier: 1.6
   startingCooldown: 0.5
   cooldownReductionPerLevel: 0.035
   minimumCooldown: 0.1
-  dexterityBasePriceCents: 150
-  dexterityPriceMultiplier: 1.7
+  dexterityBasePriceCents: 100
+  dexterityPriceMultiplier: 1.8
   startingGraspAmount: 1
   graspIncreasePerLevel: 1
-  graspBasePriceCents: 250
+  graspBasePriceCents: 200
   graspPriceMultiplier: 2
   maxBagLevel: 50
   maxDexterityLevel: 9
