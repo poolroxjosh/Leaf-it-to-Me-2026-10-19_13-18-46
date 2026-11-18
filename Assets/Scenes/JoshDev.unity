@@ -6680,7 +6680,7 @@ MonoBehaviour:
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
   spawnArea: {x: 50, y: 50}
-  leafCount: 5
+  leafCount: 50000
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -11671,7 +11671,7 @@ MonoBehaviour:
   playerCamera: {fileID: 961739752}
   toolHolder: {fileID: 1757564215}
   deployedTarpPrefab: {fileID: 4819791091076234376, guid: 308ed7d3be05d0647b16f628772c702d, type: 3}
-  bundledBagPrefab: {fileID: 8942847260475855406, guid: dd3d08f0c38ffd745ae587870c9c01c5, type: 3}
+  bundledBagPrefab: {fileID: 5290579465732416374, guid: cacc57d602c70fb4e82f771a2f9d9014, type: 3}
   groundLayers:
     serializedVersion: 2
     m_Bits: 64

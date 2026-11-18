@@ -45,11 +45,6 @@ public class LeafTarpController : MonoBehaviour
     [Min(0f)]
     public float hologramHeightOffset = 0.01f;
 
-    public Vector3 bagLocalRotation =
-        new Vector3(0f, 0f, 0f);
-
-    public Vector3 bagLocalScale = Vector3.one;
-
     public LeafTarpSurface ActiveTarp { get; private set; }
 
     public bool IsDeployed =>
@@ -161,7 +156,6 @@ public class LeafTarpController : MonoBehaviour
             return;
         }
 
-        // Prepare the bag before changing any leaf data.
         GameObject newBag = Instantiate(
             bundledBagPrefab,
             toolHolder,
@@ -171,14 +165,9 @@ public class LeafTarpController : MonoBehaviour
         if (newBag == null)
             return;
 
-        newBag.transform.localPosition =
-            bagLocalPosition;
-
-        newBag.transform.localRotation =
-            Quaternion.Euler(bagLocalRotation);
-
-        newBag.transform.localScale =
-            bagLocalScale;
+        // Keep the prefab's original rotation and scale.
+        // Only override its position relative to ToolHolder.
+        newBag.transform.localPosition = bagLocalPosition;
 
         // Snapshot the leaves captured by the tarp.
         ActiveTarp.GetCapturedLeaves(capturedIds);
