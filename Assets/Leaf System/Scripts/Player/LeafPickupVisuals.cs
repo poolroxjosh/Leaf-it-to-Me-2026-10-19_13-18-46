@@ -92,7 +92,7 @@ public class LeafPickupVisuals : MonoBehaviour
                 meshes[i] = filter.sharedMesh;
         }
 
-        highlight = CreateVisual("Leaf Highlight");
+        //highlight = CreateVisual("Leaf Highlight");
     }
 
     private Visual CreateVisual(string name)

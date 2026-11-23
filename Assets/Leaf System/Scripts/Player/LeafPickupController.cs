@@ -44,6 +44,9 @@ public class LeafPickupController : MonoBehaviour
     [Header("Wheelbarrow Movement")]
     public WheelbarrowMovementController wheelbarrowMovement;
 
+    [Header("Glow Highlight")]
+    public LeafHighlightRenderer highlightRenderer;
+
     private float nextPickupTime;
     private int targetLeafId = -1;
 
@@ -52,6 +55,9 @@ public class LeafPickupController : MonoBehaviour
 
     private readonly List<int> selected =
         new List<int>(16);
+
+    private readonly List<int> previewSelection =
+        new List<int>(32);
 
     public int TargetLeafId => targetLeafId;
 
@@ -69,6 +75,8 @@ public class LeafPickupController : MonoBehaviour
 
             if (pickupVisuals != null)
                 pickupVisuals.ClearHighlight();
+                if (highlightRenderer != null)
+                    highlightRenderer.ClearHighlights();
 
             return;
         }
@@ -80,6 +88,8 @@ public class LeafPickupController : MonoBehaviour
 
             if (pickupVisuals != null)
                 pickupVisuals.ClearHighlight();
+                if (highlightRenderer != null)
+                    highlightRenderer.ClearHighlights();
 
             return;
         }
@@ -89,6 +99,8 @@ public class LeafPickupController : MonoBehaviour
 
             if (pickupVisuals != null)
                 pickupVisuals.ClearHighlight();
+                if (highlightRenderer != null)
+                    highlightRenderer.ClearHighlights();
 
             return;
         }
@@ -101,6 +113,8 @@ public class LeafPickupController : MonoBehaviour
         {
             targetLeafId = -1;
             pickupVisuals.ClearHighlight();
+            if (highlightRenderer != null)
+                highlightRenderer.ClearHighlights();
             return;
         }
 
@@ -109,6 +123,8 @@ public class LeafPickupController : MonoBehaviour
         {
             targetLeafId = -1;
             pickupVisuals.ClearHighlight();
+            if (highlightRenderer != null)
+                highlightRenderer.ClearHighlights();
             return;
         }
 
@@ -125,6 +141,8 @@ public class LeafPickupController : MonoBehaviour
             wheelbarrowInteraction.IsAimingAtWheelbarrow())
         {
             pickupVisuals.ClearHighlight();
+            if (highlightRenderer != null)
+                highlightRenderer.ClearHighlights();
             return;
         }
 
@@ -241,19 +259,25 @@ public class LeafPickupController : MonoBehaviour
             }
         }
 
-        if (targetLeafId >= 0)
-            pickupVisuals.SetHighlight(targetLeafId);
-        else
-            pickupVisuals.ClearHighlight();
+        BuildPickupSelection(previewSelection);
+
+        if (highlightRenderer != null)
+            highlightRenderer.SetHighlights(previewSelection);
     }
 
-    private void TryPickup()
+    private void BuildPickupSelection(List<int> results)
     {
-        if (pickupVisuals.AvailableSlots <= 0)
+        results.Clear();
+
+        if (targetLeafId < 0 ||
+            targetLeafId >= leafManager.leaves.Count ||
+            inventory == null ||
+            pickupVisuals == null)
             return;
 
-        selected.Clear();
-        selected.Add(targetLeafId);
+        if (leafManager.leaves[targetLeafId].state !=
+            LeafState.Resting)
+            return;
 
         int desiredCount = Mathf.Min(
             Mathf.Max(1, leavesPerPickup),
@@ -264,47 +288,65 @@ public class LeafPickupController : MonoBehaviour
         if (desiredCount <= 0)
             return;
 
-        // Future upgrades can collect multiple nearby
-        // leaves during one pickup action.
-        if (desiredCount > 1)
+        results.Add(targetLeafId);
+
+        if (desiredCount == 1)
+            return;
+
+        Vector3 primaryPosition =
+            leafManager.leaves[targetLeafId].position;
+
+        // Same ordering used by the original
+        // Grasp pickup implementation.
+        candidates.Sort((a, b) =>
         {
-            Vector3 primaryPosition =
-                leafManager.leaves[targetLeafId].position;
+            float da = (
+                leafManager.leaves[a].position -
+                primaryPosition
+            ).sqrMagnitude;
 
-            candidates.Sort((a, b) =>
-            {
-                float da = (
-                    leafManager.leaves[a].position -
-                    primaryPosition
-                ).sqrMagnitude;
+            float db = (
+                leafManager.leaves[b].position -
+                primaryPosition
+            ).sqrMagnitude;
 
-                float db = (
-                    leafManager.leaves[b].position -
-                    primaryPosition
-                ).sqrMagnitude;
+            int comparison = da.CompareTo(db);
 
-                return da.CompareTo(db);
-            });
+            return comparison != 0
+                ? comparison
+                : a.CompareTo(b);
+        });
 
-            foreach (int id in candidates)
-            {
-                if (selected.Count >= desiredCount)
-                    break;
+        foreach (int id in candidates)
+        {
+            if (results.Count >= desiredCount)
+                break;
 
-                if (id == targetLeafId)
-                    continue;
+            if (id == targetLeafId)
+                continue;
 
-                if (leafManager.leaves[id].state !=
-                    LeafState.Resting)
-                    continue;
+            LeafData leaf = leafManager.leaves[id];
 
-                if (!pickupVisuals.CanDisplayVariant(
-                    leafManager.leaves[id].variantIndex))
-                    continue;
+            if (leaf.state != LeafState.Resting)
+                continue;
 
-                selected.Add(id);
-            }
+            if (!pickupVisuals.CanDisplayVariant(
+                leaf.variantIndex))
+                continue;
+
+            results.Add(id);
         }
+    }
+
+    private void TryPickup()
+    {
+        if (pickupVisuals.AvailableSlots <= 0)
+            return;
+
+        BuildPickupSelection(selected);
+
+        if (selected.Count == 0)
+            return;
 
         int started = 0;
 
@@ -343,5 +385,11 @@ public class LeafPickupController : MonoBehaviour
             targetLeafId = -1;
             pickupVisuals.ClearHighlight();
         }
+    }
+
+    private void OnDisable()
+    {
+        if (highlightRenderer != null)
+            highlightRenderer.ClearHighlights();
     }
 }

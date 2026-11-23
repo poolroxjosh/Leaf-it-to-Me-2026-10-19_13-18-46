@@ -11054,6 +11054,7 @@ GameObject:
   - component: {fileID: 1796611061}
   - component: {fileID: 1796611062}
   - component: {fileID: 1796611063}
+  - component: {fileID: 1796611064}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -11154,6 +11155,7 @@ MonoBehaviour:
   shopUI: {fileID: 1658292771}
   toolController: {fileID: 1796611059}
   wheelbarrowMovement: {fileID: 1796611061}
+  highlightRenderer: {fileID: 1796611064}
 --- !u!114 &1796611051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11567,6 +11569,23 @@ MonoBehaviour:
   validHologramColor: {r: 0.3, g: 1, b: 0.4, a: 0.4}
   invalidHologramColor: {r: 1, g: 0.25, b: 0.25, a: 0.4}
   hologramHeightOffset: 0.01
+--- !u!114 &1796611064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1796611046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a10092d73243f2f47b6c7b6aed22ecc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LeafHighlightRenderer
+  leafManager: {fileID: 1075979202}
+  leafSpawner: {fileID: 1075979201}
+  highlightMaterial: {fileID: 2100000, guid: eb22f5de9638a3b4b9bdf185ec5a2afa, type: 2}
+  outlineScale: 1.12
+  heightOffset: 0
 --- !u!1 &1805314724 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1007d3dfa0dcc074f83cf81d8c1c0810, type: 3}
