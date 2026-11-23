@@ -630,9 +630,7 @@ MonoBehaviour:
   musicSource: {fileID: 135183877}
   ambienceSource: {fileID: 135183878}
   musicTracks:
-  - {fileID: 8300000, guid: 78b9fbccb92a36b4a8e55da44d84cba1, type: 3}
-  - {fileID: 8300000, guid: 555305e69682da3499a7d6291d7df74b, type: 3}
-  - {fileID: 8300000, guid: 2d31e4f96aeebc943ae4715d3bb0b61c, type: 3}
+  - {fileID: 8300000, guid: 743a8d273c76bf843a5142342e877312, type: 3}
   ambienceTrack: {fileID: 8300000, guid: 1c95389d478acc3418e9a4e378bd96a1, type: 3}
   musicVolume: 0.5
   ambienceVolume: 0.75
