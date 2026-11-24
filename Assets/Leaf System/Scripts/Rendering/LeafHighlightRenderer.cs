@@ -7,6 +7,10 @@ public class LeafHighlightRenderer : MonoBehaviour
     public LeafManager leafManager;
     public LeafSpawner leafSpawner;
     public Material highlightMaterial;
+    public LeafPickupVisuals pickupVisuals;
+
+    [Header("Flying Leaves")]
+    public bool highlightFlyingLeaves = true;
 
     public static LeafHighlightRenderer Instance
     {
@@ -28,7 +32,14 @@ public class LeafHighlightRenderer : MonoBehaviour
 
     public bool HasHighlights =>
         isActiveAndEnabled &&
-        highlightedIds.Count > 0;
+        (
+            highlightedIds.Count > 0 ||
+            (
+                highlightFlyingLeaves &&
+                pickupVisuals != null &&
+                pickupVisuals.HasFlyingLeaves
+            )
+        );
 
     private void Awake()
     {
@@ -37,6 +48,9 @@ public class LeafHighlightRenderer : MonoBehaviour
 
         if (leafSpawner == null)
             leafSpawner = FindAnyObjectByType<LeafSpawner>();
+
+        if (pickupVisuals == null)
+            pickupVisuals = FindAnyObjectByType<LeafPickupVisuals>();
     }
 
     private void OnEnable()
@@ -82,45 +96,54 @@ public class LeafHighlightRenderer : MonoBehaviour
     {
         results.Clear();
 
-        if (leafManager == null || leafSpawner == null)
-            return;
-
-        foreach (int id in highlightedIds)
+        // Highlight selected leaves on the ground.
+        if (leafManager != null && leafSpawner != null)
         {
-            if (id < 0 || id >= leafManager.leaves.Count)
-                continue;
-
-            LeafData leaf = leafManager.leaves[id];
-
-            if (leaf.state != LeafState.Resting ||
-                leafManager.IsLeafProtected(id))
-                continue;
-
-            if (leafManager.activeTarp != null &&
-                leafManager.activeTarp.ShouldHideLeafVisual(
-                    id, leaf.position))
-                continue;
-
-            if (!meshes.TryGetValue(
-                leaf.variantIndex, out Mesh mesh))
-                continue;
-
-            Quaternion rotation =
-                leaf.rotation * Quaternion.Euler(
-                    leafSpawner.variants[leaf.variantIndex]
-                        .meshRotationOffset
-                );
-
-            results.Add(new HighlightDraw
+            foreach (int id in highlightedIds)
             {
-                mesh = mesh,
+                if (id < 0 || id >= leafManager.leaves.Count)
+                    continue;
 
-                matrix = Matrix4x4.TRS(
-                    leaf.position,
-                    rotation,
-                    leaf.scale
-                )
-            });
+                LeafData leaf = leafManager.leaves[id];
+
+                if (leaf.state != LeafState.Resting ||
+                    leafManager.IsLeafProtected(id))
+                    continue;
+
+                if (leafManager.activeTarp != null &&
+                    leafManager.activeTarp.ShouldHideLeafVisual(
+                        id, leaf.position))
+                    continue;
+
+                if (!meshes.TryGetValue(
+                    leaf.variantIndex, out Mesh mesh))
+                    continue;
+
+                Quaternion rotation =
+                    leaf.rotation * Quaternion.Euler(
+                        leafSpawner.variants[leaf.variantIndex]
+                            .meshRotationOffset
+                    );
+
+                results.Add(new HighlightDraw
+                {
+                    mesh = mesh,
+
+                    matrix = Matrix4x4.TRS(
+                        leaf.position,
+                        rotation,
+                        leaf.scale
+                    )
+                });
+            }
+        }
+
+        // Highlight leaves currently flying
+        // toward the player's bag.
+        if (highlightFlyingLeaves &&
+            pickupVisuals != null)
+        {
+            pickupVisuals.AppendFlyingHighlightDraws(results);
         }
     }
 

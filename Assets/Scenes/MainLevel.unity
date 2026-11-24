@@ -5616,6 +5616,8 @@ MonoBehaviour:
   arcHeight: 0.6
   spinDegrees: 360
   finalScale: 0.15
+  pickupVisuals: {fileID: 0}
+  highlightFlyingLeaves: 1
 --- !u!1 &965423878
 GameObject:
   m_ObjectHideFlags: 0
@@ -11592,6 +11594,8 @@ MonoBehaviour:
   leafManager: {fileID: 1075979202}
   leafSpawner: {fileID: 1075979201}
   highlightMaterial: {fileID: 2100000, guid: eb22f5de9638a3b4b9bdf185ec5a2afa, type: 2}
+  pickupVisuals: {fileID: 964457083}
+  highlightFlyingLeaves: 1
 --- !u!1 &1805314724 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1007d3dfa0dcc074f83cf81d8c1c0810, type: 3}
