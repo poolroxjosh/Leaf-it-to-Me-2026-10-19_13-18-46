@@ -8055,6 +8055,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 6881160191375045849, guid: eea04246642653047adbab5359474b97, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 961739752}
+    - target: {fileID: 6881160191375045849, guid: eea04246642653047adbab5359474b97, type: 3}
+      propertyPath: m_VertexColorAlwaysGammaSpace
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8076079560825064054, guid: eea04246642653047adbab5359474b97, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -8133,7 +8141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8727732672205076462, guid: eea04246642653047adbab5359474b97, type: 3}
       propertyPath: worldOffset.z
-      value: -0.2
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8727732672205076462, guid: eea04246642653047adbab5359474b97, type: 3}
       propertyPath: movementController
@@ -11244,7 +11252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d49c7f28a2d75594e982a6eaa63f2e07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeafWallet
-  balanceCents: 0
+  balanceCents: 1000000
   lifetimeEarningsCents: 0
 --- !u!114 &1796611055
 MonoBehaviour:
@@ -11584,8 +11592,6 @@ MonoBehaviour:
   leafManager: {fileID: 1075979202}
   leafSpawner: {fileID: 1075979201}
   highlightMaterial: {fileID: 2100000, guid: eb22f5de9638a3b4b9bdf185ec5a2afa, type: 2}
-  outlineScale: 1.12
-  heightOffset: 0
 --- !u!1 &1805314724 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1007d3dfa0dcc074f83cf81d8c1c0810, type: 3}
