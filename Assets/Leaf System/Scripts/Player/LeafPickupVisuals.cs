@@ -24,6 +24,11 @@ public class LeafPickupVisuals : MonoBehaviour
     public float spinDegrees = 360f;
     public float finalScale = 0.15f;
 
+    public LeafPickupVisuals pickupVisuals;
+
+    [Header("Flying Leaves")]
+    public bool highlightFlyingLeaves = true;
+
     private class Visual
     {
         public GameObject obj;
@@ -136,6 +141,30 @@ public class LeafPickupVisuals : MonoBehaviour
     public bool CanDisplayVariant(int variantIndex)
     {
         return meshes.ContainsKey(variantIndex);
+    }
+
+    public bool HasFlyingLeaves => flying.Count > 0;
+
+    public void AppendFlyingHighlightDraws(
+        List<LeafHighlightRenderer.HighlightDraw> results)
+    {
+        foreach (Visual visual in flying)
+        {
+            if (visual.obj == null ||
+                !visual.obj.activeInHierarchy ||
+                visual.filter == null ||
+                visual.filter.sharedMesh == null)
+                continue;
+
+            results.Add(
+                new LeafHighlightRenderer.HighlightDraw
+                {
+                    mesh = visual.filter.sharedMesh,
+
+                    matrix = visual.obj.transform.localToWorldMatrix
+                }
+            );
+        }
     }
 
     public void SetHighlight(int leafId)
